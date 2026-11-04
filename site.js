@@ -38,31 +38,3 @@ document.querySelectorAll('a[href^="places/"],a[href$=".html"]').forEach(link=>l
   window.setTimeout(()=>location.assign(destination.href),180);
 }));
 
-// Ask once per browser tab. Load the official Spotify Embed only after a choice.
-const musicChoiceKey='evening-letter-background-music';
-const musicInvitation=document.querySelector('.music-invitation');
-const musicDock=document.querySelector('.music-dock');
-if(musicDock&&musicInvitation){
-  const toggle=musicDock.querySelector('.music-toggle');
-  const panel=musicDock.querySelector('.music-panel');
-  const close=musicDock.querySelector('.music-close');
-  const status=musicDock.querySelector('.music-fallback');
-  const playChoice=musicInvitation.querySelector('.invitation-play');
-  const quietChoice=musicInvitation.querySelector('.invitation-quiet');
-  const setPanelOpen=open=>{panel.hidden=!open;toggle.setAttribute('aria-expanded',String(open))};
-  const readChoice=()=>{try{return sessionStorage.getItem(musicChoiceKey)||''}catch{return ''}};
-  const saveChoice=choice=>{try{sessionStorage.setItem(musicChoiceKey,choice)}catch{}};
-  const loadSpotify=()=>{
-    setPanelOpen(true);
-    status.textContent='通过下方链接打开官方页面收听；数字下载需在 Bandcamp 购买。';
-  };
-  const savedChoice=readChoice();
-  if(savedChoice==='play')loadSpotify();
-  else if(!savedChoice)musicInvitation.hidden=false;
-  playChoice.addEventListener('click',()=>{saveChoice('play');musicInvitation.hidden=true;loadSpotify()});
-  quietChoice.addEventListener('click',()=>{saveChoice('quiet');musicInvitation.hidden=true});
-  toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';if(open)loadSpotify();else setPanelOpen(false)});
-  close.addEventListener('click',()=>setPanelOpen(false));
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&toggle.getAttribute('aria-expanded')==='true'){setPanelOpen(false);toggle.focus()}});
-}
-
