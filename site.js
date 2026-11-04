@@ -46,7 +46,6 @@ if(musicDock&&musicInvitation){
   const toggle=musicDock.querySelector('.music-toggle');
   const panel=musicDock.querySelector('.music-panel');
   const close=musicDock.querySelector('.music-close');
-  const mount=musicDock.querySelector('#spotify-embed');
   const status=musicDock.querySelector('.music-fallback');
   const playChoice=musicInvitation.querySelector('.invitation-play');
   const quietChoice=musicInvitation.querySelector('.invitation-quiet');
@@ -55,17 +54,7 @@ if(musicDock&&musicInvitation){
   const saveChoice=choice=>{try{sessionStorage.setItem(musicChoiceKey,choice)}catch{}};
   const loadSpotify=()=>{
     setPanelOpen(true);
-    if(mount.querySelector('iframe'))return;
-    const frame=document.createElement('iframe');
-    frame.title='matryoshka - Sacred Play Secret Place 的 Spotify 播放器';
-    frame.src=mount.dataset.embedSrc;
-    frame.width='100%';
-    frame.height='152';
-    frame.setAttribute('frameborder','0');
-    frame.setAttribute('allow','autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture');
-    frame.loading='lazy';
-    mount.replaceChildren(frame);
-    status.textContent='点播放器里的播放键开始听；如果播放器打不开，可在 Spotify 打开。';
+    status.textContent='通过下方链接打开官方页面收听；数字下载需在 Bandcamp 购买。';
   };
   const savedChoice=readChoice();
   if(savedChoice==='play')loadSpotify();
