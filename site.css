@@ -38,3 +38,31 @@ body.leaving{opacity:0;pointer-events:none;transition:opacity 180ms var(--ease-o
 }
 
 @media(prefers-reduced-motion:reduce){.cover-link:hover .cover-photo,.destination:hover .destination-image img,.essay-image:hover img,.destination:hover .enter-link b{transform:none}}
+
+/* Quiet, user-controlled soundtrack dock. */
+.music-dock{position:fixed;z-index:30;right:22px;bottom:20px;font-family:var(--serif)}
+.music-toggle{display:flex;align-items:center;gap:10px;border:1px solid #c9c4b8;background:rgba(245,242,235,.96);color:var(--ink);padding:8px 14px 8px 9px;cursor:pointer;box-shadow:0 4px 16px #292d2712;backdrop-filter:blur(8px)}
+.music-glyph{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;color:var(--red);font:18px Georgia,serif}
+.music-label{display:flex;flex-direction:column;align-items:flex-start;gap:2px}.music-label small,.music-panel-head small{font-size:9px;color:var(--muted);letter-spacing:.12em}.music-label strong{font-size:11px;font-weight:400;letter-spacing:.07em}
+.music-toggle:hover .music-glyph{transform:rotate(-8deg)}.music-glyph{transition:transform 180ms var(--ease-out)}
+.music-panel{position:absolute;right:0;bottom:calc(100% + 10px);width:min(330px,calc(100vw - 36px));padding:12px;background:var(--paper);border:1px solid var(--line);box-shadow:0 10px 32px #292d2720;animation:music-panel-in 180ms var(--ease-out) both}
+.music-panel[hidden]{display:none}.music-panel-head{display:flex;justify-content:space-between;align-items:flex-start;padding:2px 2px 10px}.music-panel-head>div{display:flex;flex-direction:column;gap:4px}.music-panel-head strong{font-size:13px;font-weight:400;letter-spacing:.03em}.music-panel-head span{font:10px Arial,sans-serif;color:var(--muted)}
+.music-close{border:0;background:transparent;color:var(--muted);font:22px/1 Arial,sans-serif;cursor:pointer;padding:0 4px}.music-provider-link{display:inline-block;margin:7px 2px 0;color:var(--red);font-size:10px;letter-spacing:.04em;border-bottom:1px solid #975b4660}
+.music-panel iframe{display:block;border:0;border-radius:8px;background:var(--paper2)}
+@keyframes music-panel-in{from{opacity:0;transform:translate3d(0,6px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@media(hover:hover) and (pointer:fine){.music-toggle:hover{background:#eeebe3}}
+@media(max-width:700px){.music-dock{right:12px;bottom:12px}.music-panel{width:min(320px,calc(100vw - 24px))}}
+@media(prefers-reduced-motion:reduce){.music-panel{animation:none}.music-toggle:hover .music-glyph{transform:none}}
+
+.music-fallback{font-size:9px;line-height:1.6;color:var(--muted);margin:7px 2px 0}
+.spotify-embed{width:100%;min-height:152px;background:var(--paper2);border-radius:8px;overflow:hidden;font:10px var(--serif);color:var(--muted);display:grid;place-items:center}
+.spotify-embed iframe{display:block;width:100%;height:152px;border:0;border-radius:8px}
+.music-invitation{position:fixed;z-index:40;left:50%;bottom:26px;transform:translateX(-50%);width:min(560px,calc(100vw - 36px));display:grid;grid-template-columns:42px 1fr auto;gap:14px;align-items:center;padding:15px 17px;background:rgba(245,242,235,.98);border:1px solid var(--line);box-shadow:0 10px 34px #292d271c;animation:invitation-arrive 420ms var(--ease-out) both}
+.music-invitation[hidden]{display:none}
+.invitation-mark{width:38px;height:38px;display:grid;place-items:center;border:1px solid #c9c4b8;border-radius:50%;font:20px Georgia,serif;color:var(--red)}
+.invitation-copy small{font-size:9px;color:var(--red);letter-spacing:.12em}.invitation-copy h2{font-size:15px;font-weight:400;letter-spacing:.04em;margin:4px 0}.invitation-copy p{font:10px Arial,sans-serif;color:var(--muted);margin:0}.invitation-copy p span{color:#96958d}
+.invitation-actions{display:flex;align-items:center;gap:12px}.invitation-actions button{font:11px var(--serif);cursor:pointer}.invitation-play{border:1px solid var(--red);background:var(--red);color:#fff;padding:8px 12px}.invitation-quiet{border:0;background:transparent;color:var(--muted);padding:7px 0;white-space:nowrap}
+@keyframes invitation-arrive{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+@media(max-width:620px){.music-invitation{bottom:68px;grid-template-columns:32px 1fr;gap:9px;padding:13px}.invitation-mark{width:30px;height:30px;font-size:17px}.invitation-actions{grid-column:2;justify-content:flex-start;gap:18px}.invitation-copy h2{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.music-invitation{animation:none;transform:translateX(-50%)}}
+
