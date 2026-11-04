@@ -8,7 +8,7 @@ const pools={
   village:['photo-1677126138830-ca9d01b53ed5','photo-1695792622995-dc673d0d9d64','photo-1740021762335-8bdd7d297443']
 };
 const used=new Set(),counts=new Map();
-const photoBase='';
+const photoBase='./';
 function pick(key,index){const source=pools[key]||pools.all;let previous='';if(index===0){try{previous=localStorage.getItem('evening-letter-last-'+key)||''}catch{}}let candidates=source.filter(id=>!used.has(id)&&id!==previous);if(!candidates.length)candidates=source.filter(id=>!used.has(id));if(!candidates.length)candidates=source;const id=candidates[Math.floor(Math.random()*candidates.length)];used.add(id);if(index===0){try{localStorage.setItem('evening-letter-last-'+key,id)}catch{}}return id}
 function imageUrl(id){return `${photoBase}${id}.jpg`}
 document.querySelectorAll('[data-photo]').forEach((image,index)=>{const key=image.dataset.photo||'all';const poolIndex=counts.get(key)||0;counts.set(key,poolIndex+1);const id=pick(key,poolIndex);image.src=imageUrl(id);image.dataset.photoId=id;image.addEventListener('error',()=>{const alternatives=(pools[key]||pools.all).filter(other=>other!==id);if(alternatives.length)image.src=imageUrl(alternatives[Math.floor(Math.random()*alternatives.length)])},{once:true})});
@@ -29,7 +29,7 @@ if(!reduceMotion&&'IntersectionObserver' in window){
 
 // Keep page changes brief and allow the browser's normal navigation when motion is reduced.
 const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
-document.querySelectorAll('a[href^=""],a[href$=".html"]').forEach(link=>link.addEventListener('click',event=>{
+document.querySelectorAll('a[href^="places/"],a[href$=".html"]').forEach(link=>link.addEventListener('click',event=>{
   if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==='_blank'||motionPreference.matches)return;
   const destination=new URL(link.href,location.href);
   if(destination.origin!==location.origin)return;
@@ -37,3 +37,54 @@ document.querySelectorAll('a[href^=""],a[href$=".html"]').forEach(link=>link.add
   document.body.classList.add('leaving');
   window.setTimeout(()=>location.assign(destination.href),180);
 }));
+
+// Ask once per browser tab. Spotify media is fetched only after the visitor chooses music.
+const musicChoiceKey='evening-letter-background-music';
+const musicInvitation=document.querySelector('.music-invitation');
+const musicDock=document.querySelector('.music-dock');
+if(musicDock&&musicInvitation){
+  const toggle=musicDock.querySelector('.music-toggle');
+  const panel=musicDock.querySelector('.music-panel');
+  const close=musicDock.querySelector('.music-close');
+  const mount=musicDock.querySelector('#spotify-embed');
+  const status=musicDock.querySelector('.music-fallback');
+  const playChoice=musicInvitation.querySelector('.invitation-play');
+  const quietChoice=musicInvitation.querySelector('.invitation-quiet');
+  let playerController=null;
+  let apiLoadStarted=false;
+  let playWhenReady=false;
+  const setPanelOpen=open=>{panel.hidden=!open;toggle.setAttribute('aria-expanded',String(open))};
+  const readChoice=()=>{try{return sessionStorage.getItem(musicChoiceKey)||''}catch{return ''}};
+  const saveChoice=choice=>{try{sessionStorage.setItem(musicChoiceKey,choice)}catch{}};
+  const startSpotify=({play=false}={})=>{
+    playWhenReady=playWhenReady||play;
+    setPanelOpen(true);
+    if(playerController){if(play)playerController.play();return}
+    if(apiLoadStarted)return;
+    apiLoadStarted=true;
+    window.onSpotifyIframeApiReady=IFrameAPI=>{
+      IFrameAPI.createController(mount,{uri:'spotify:track:5IJ1XPg1t3IAfhxfLRSuA9',width:'100%',height:'152'},controller=>{
+        playerController=controller;
+        if(playWhenReady)controller.play();
+        status.textContent='若浏览器拦截自动播放，请点播放器里的播放键。';
+      });
+    };
+    const script=document.createElement('script');
+    script.src='https://open.spotify.com/embed/iframe-api/v1';
+    script.async=true;
+    script.onerror=()=>{status.textContent='播放器暂时无法载入，可从下方链接前往 Spotify。'};
+    document.body.appendChild(script);
+  };
+  const savedChoice=readChoice();
+  if(savedChoice==='play'){startSpotify({play:true})}
+  else if(!savedChoice){musicInvitation.hidden=false}
+  playChoice.addEventListener('click',()=>{saveChoice('play');musicInvitation.hidden=true;startSpotify({play:true})});
+  quietChoice.addEventListener('click',()=>{saveChoice('quiet');musicInvitation.hidden=true});
+  toggle.addEventListener('click',()=>{
+    const open=toggle.getAttribute('aria-expanded')!=='true';
+    if(open)startSpotify();else setPanelOpen(false);
+  });
+  close.addEventListener('click',()=>setPanelOpen(false));
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&toggle.getAttribute('aria-expanded')==='true'){setPanelOpen(false);toggle.focus()}});
+}
+
