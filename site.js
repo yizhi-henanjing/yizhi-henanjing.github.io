@@ -38,7 +38,7 @@ document.querySelectorAll('a[href^="places/"],a[href$=".html"]').forEach(link=>l
   window.setTimeout(()=>location.assign(destination.href),180);
 }));
 
-// Ask once per browser tab. Spotify media is fetched only after the visitor chooses music.
+// Ask once per browser tab. Load the official Spotify Embed only after a choice.
 const musicChoiceKey='evening-letter-background-music';
 const musicInvitation=document.querySelector('.music-invitation');
 const musicDock=document.querySelector('.music-dock');
@@ -50,40 +50,29 @@ if(musicDock&&musicInvitation){
   const status=musicDock.querySelector('.music-fallback');
   const playChoice=musicInvitation.querySelector('.invitation-play');
   const quietChoice=musicInvitation.querySelector('.invitation-quiet');
-  let playerController=null;
-  let apiLoadStarted=false;
-  let playWhenReady=false;
   const setPanelOpen=open=>{panel.hidden=!open;toggle.setAttribute('aria-expanded',String(open))};
   const readChoice=()=>{try{return sessionStorage.getItem(musicChoiceKey)||''}catch{return ''}};
   const saveChoice=choice=>{try{sessionStorage.setItem(musicChoiceKey,choice)}catch{}};
-  const startSpotify=({play=false}={})=>{
-    playWhenReady=playWhenReady||play;
+  const loadSpotify=()=>{
     setPanelOpen(true);
-    if(playerController){if(play)playerController.play();return}
-    if(apiLoadStarted)return;
-    apiLoadStarted=true;
-    window.onSpotifyIframeApiReady=IFrameAPI=>{
-      IFrameAPI.createController(mount,{uri:'spotify:track:5IJ1XPg1t3IAfhxfLRSuA9',width:'100%',height:'152'},controller=>{
-        playerController=controller;
-        if(playWhenReady)controller.play();
-        status.textContent='若浏览器拦截自动播放，请点播放器里的播放键。';
-      });
-    };
-    const script=document.createElement('script');
-    script.src='https://open.spotify.com/embed/iframe-api/v1';
-    script.async=true;
-    script.onerror=()=>{status.textContent='播放器暂时无法载入，可从下方链接前往 Spotify。'};
-    document.body.appendChild(script);
+    if(mount.querySelector('iframe'))return;
+    const frame=document.createElement('iframe');
+    frame.title='matryoshka - Sacred Play Secret Place 的 Spotify 播放器';
+    frame.src=mount.dataset.embedSrc;
+    frame.width='100%';
+    frame.height='152';
+    frame.setAttribute('frameborder','0');
+    frame.setAttribute('allow','autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture');
+    frame.loading='lazy';
+    mount.replaceChildren(frame);
+    status.textContent='点播放器里的播放键开始听；如果播放器打不开，可在 Spotify 打开。';
   };
   const savedChoice=readChoice();
-  if(savedChoice==='play'){startSpotify({play:true})}
-  else if(!savedChoice){musicInvitation.hidden=false}
-  playChoice.addEventListener('click',()=>{saveChoice('play');musicInvitation.hidden=true;startSpotify({play:true})});
+  if(savedChoice==='play')loadSpotify();
+  else if(!savedChoice)musicInvitation.hidden=false;
+  playChoice.addEventListener('click',()=>{saveChoice('play');musicInvitation.hidden=true;loadSpotify()});
   quietChoice.addEventListener('click',()=>{saveChoice('quiet');musicInvitation.hidden=true});
-  toggle.addEventListener('click',()=>{
-    const open=toggle.getAttribute('aria-expanded')!=='true';
-    if(open)startSpotify();else setPanelOpen(false);
-  });
+  toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';if(open)loadSpotify();else setPanelOpen(false)});
   close.addEventListener('click',()=>setPanelOpen(false));
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&toggle.getAttribute('aria-expanded')==='true'){setPanelOpen(false);toggle.focus()}});
 }
