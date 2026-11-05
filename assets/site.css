@@ -604,3 +604,61 @@ figure { margin: 0; }
   .district-marker strong { font-size:15px; }
 }
 
+/* Real-time free-roam city scene */
+body.neon-world-active .city-map-canvas,
+body.neon-world-active .district-scene { background-color:#050817; }
+body.neon-world-active .city-map-canvas::before,
+body.neon-world-active .city-map-canvas::after,
+body.neon-world-active .map-skyline,
+body.neon-world-active .map-orb,
+body.neon-world-active .map-flightpath,
+body.neon-world-active .map-block,
+body.neon-world-active .map-road,
+body.neon-world-active .map-route,
+body.neon-world-active .district3d-world,
+body.neon-world-active .scene-geometry { display:none!important; }
+body.neon-world-active .city3d-stage,
+body.neon-world-active .district3d-stage { z-index:1; pointer-events:auto; perspective:none; overflow:hidden; }
+body.neon-world-active .city-map-canvas { border-color:#3b346c; background:radial-gradient(ellipse at 48% 46%,#19133a,#050817 72%); }
+body.neon-world-active .district-scene { background-image:linear-gradient(90deg,#080b17ec 0%,#080b17a8 38%,#080b1718 100%),linear-gradient(0deg,#080b17f0 0%,transparent 75%); }
+.neon-world-canvas { position:absolute; inset:0; display:block; width:100%; height:100%; outline:none; touch-action:none; cursor:grab; }
+.neon-world-canvas:active { cursor:grabbing; }
+.neon-world-hud { position:absolute; z-index:4; left:16px; bottom:15px; display:grid; gap:3px; max-width:min(370px,calc(100% - 32px)); padding:12px 15px; border:1px solid #48e9ef65; border-left:3px solid #41eaf1; color:#d8faff; background:#080b1bd9; box-shadow:0 0 24px #21d9ff24,inset 0 0 20px #27dfff0b; backdrop-filter:blur(10px); pointer-events:none; }
+.neon-world-hud strong { color:#8afaff; font-size:12px; letter-spacing:.08em; }
+.neon-world-hud span,.neon-world-hud small { color:#b1bdde; font-size:10px; }
+.neon-world-hud small { color:#ffb8df; transition:color .2s,text-shadow .2s; }
+.neon-world-hud small.is-new { color:#fff; text-shadow:0 0 12px #ff32ad; }
+.neon-touch-pad { position:absolute; z-index:5; right:16px; bottom:14px; display:none; width:130px; gap:3px; flex-direction:column; align-items:center; touch-action:none; }
+.neon-touch-pad span { display:flex; gap:3px; }
+.neon-touch-pad button { width:39px; height:36px; border:1px solid #65efff80; color:#c9fcff; background:#10172dd9; font-size:13px; touch-action:none; }
+.neon-touch-pad button.is-pressed { color:#06121c; background:#5cf2ff; box-shadow:0 0 18px #27dfff; }
+body.neon-world-active .district3d-controls { z-index:5; }
+body.neon-world-active .district3d-controls button,
+body.neon-world-active .city3d-tools button { border-color:#6c55be; background:#17132ad9; color:#e9dcff; }
+body.neon-world-active .district-marker { z-index:4; border-color:#35eaff8c; background:#0b1025dd; box-shadow:0 0 18px #e63cff2b; backdrop-filter:blur(8px); }
+body.neon-world-active .city-map-canvas .district-marker { width:min(170px,25%); min-height:0; padding:9px 11px; gap:3px; }
+body.neon-world-active .city-map-canvas .district-marker strong { font-size:14px; }
+body.neon-world-active .city-map-canvas .district-marker small { display:none; }
+body.neon-world-active .city-map-canvas .city3d-stage > .neon-world-hud { top:13px; bottom:auto; left:13px; }
+body.neon-world-active .district-scene::after { position:absolute; z-index:2; inset:38% 0 0; content:""; pointer-events:none; background:linear-gradient(0deg,#070a16f5 0%,#070a16bf 44%,transparent 100%); }
+body.neon-world-active .district-scene > [class$="-intro"] { display:none; }
+body.neon-world-active .district-scene h1 { position:relative; z-index:3; }
+body.neon-world-active .district-scene .district3d-stage > .neon-world-hud { top:50px; right:auto; bottom:auto; left:15px; max-width:280px; }
+body.neon-world-active .district3d-stage::after { display:none; }
+body.neon-world-active .district-marker:hover,
+body.neon-world-active .district-marker.is-selected { border-color:#ff55cf; box-shadow:0 0 25px #f429d477; }
+.neon-world-active .city-map-canvas { cursor:grab; }
+@media(max-width:760px) {
+  body.neon-world-active .city-map-canvas .district-marker { width:44%; padding:8px 9px; }
+  body.neon-world-active .city-map-canvas .district-marker strong { font-size:12px; }
+  .neon-touch-pad { display:flex; }
+  .neon-world-hud { bottom:14px; left:12px; max-width:calc(100% - 166px); padding:9px 10px; }
+  .neon-world-hud strong { font-size:10px; }
+  .neon-world-hud span,.neon-world-hud small { font-size:8px; }
+  body.neon-world-active .city3d-stage { inset:2% 0 2%; }
+  body.neon-world-active .district3d-stage { inset:0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .neon-world-canvas { cursor:default; }
+}
+
