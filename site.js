@@ -16,7 +16,7 @@ document.querySelectorAll('[data-photo]').forEach((image,index)=>{const key=imag
 // Scroll reveals are one-shot: motion helps orient the reader without making text move repeatedly.
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(!reduceMotion&&'IntersectionObserver' in window){
-  const revealTargets=[...document.querySelectorAll('.destination,.place-intro,.essay-row,.place-pause,.next-place')];
+  const revealTargets=[...document.querySelectorAll('.destination,.place-intro,.essay-row,.route-explorer,.place-pause,.next-place')];
   if(revealTargets.length){
     document.body.classList.add('motion-ready');
     revealTargets.forEach((element,index)=>{element.classList.add('reveal');element.style.setProperty('--reveal-delay',`${(index%4)*60}ms`)});
@@ -37,4 +37,26 @@ document.querySelectorAll('a[href^="places/"],a[href$=".html"]').forEach(link=>l
   document.body.classList.add('leaving');
   window.setTimeout(()=>location.assign(destination.href),180);
 }));
+
+// Small route explorer: switch among three detailed observation stops.
+document.querySelectorAll('[data-route-explorer]').forEach(explorer=>{
+  const tabs=[...explorer.querySelectorAll('[data-route-tab]')];
+  const panels=[...explorer.querySelectorAll('[data-route-panel]')];
+  const activate=index=>{
+    tabs.forEach((tab,i)=>{const active=i===index;tab.classList.toggle('is-active',active);tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1});
+    panels.forEach((panel,i)=>{panel.hidden=i!==index});
+  };
+  tabs.forEach((tab,index)=>{
+    tab.addEventListener('click',()=>activate(index));
+    tab.addEventListener('keydown',event=>{
+      let next=index;
+      if(event.key==='ArrowRight'||event.key==='ArrowDown')next=(index+1)%tabs.length;
+      else if(event.key==='ArrowLeft'||event.key==='ArrowUp')next=(index+tabs.length-1)%tabs.length;
+      else if(event.key==='Home')next=0;
+      else if(event.key==='End')next=tabs.length-1;
+      else return;
+      event.preventDefault();activate(next);tabs[next].focus();
+    });
+  });
+});
 
