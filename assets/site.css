@@ -567,3 +567,40 @@ figure { margin: 0; }
   .district3d-stage::after{content:"FREE LOOK"}
 }
 
+/* Typography: an atmospheric field guide, with terminal type reserved for coordinates. */
+:root {
+  --font-display: "FangSong", "仿宋", "STSong", "Songti SC", "SimSun", serif;
+  --font-ui: "Microsoft YaHei UI", "Microsoft YaHei", "DengXian", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Code", "Consolas", monospace;
+  font-family: var(--font-ui);
+  line-height: 1.58;
+  font-kerning: normal;
+}
+.city-header,.district-header { font-family:var(--font-ui);font-size:11px;font-weight:500;letter-spacing:.035em;text-transform:none; }
+.city-wordmark { font-family:var(--font-display);font-size:16px;font-weight:400;letter-spacing:.1em; }
+.city-clock,.city-clock small,.route-label,.district-marker .marker-code,.map-coordinate,.readout-status,.city-index h2 small,.city-index a span,.city-footer,.district-footer,.scene-index,.scene-data,.district-nightlog time,.city3d-tools,.district3d-controls span { font-family:var(--font-mono); }
+.eyebrow,.scene-kicker { font-family:var(--font-ui);font-size:10px;font-weight:600;letter-spacing:.1em; }
+.map-heading h1,.district-scene h1,.city-readout h2,.city-index h2,.district-route h2,.district-console h2,.district-layout aside h2,.district-nightlog header h2 {
+  font-family:var(--font-display);
+  font-weight:400;
+  letter-spacing:.015em;
+  font-synthesis:none;
+}
+.map-heading h1 { font-size:clamp(34px,4.4vw,52px); }
+.district-scene h1 { font-size:clamp(42px,6.2vw,74px);letter-spacing:.025em; }
+.city-readout h2 { font-size:28px;font-weight:400; }
+.city-index h2,.district-route h2,.district-console h2,.district-layout aside h2 { font-size:23px;font-weight:400; }
+.district-nightlog header h2 { font-size:clamp(23px,2.8vw,32px);font-weight:400; }
+.district-marker strong { font-family:var(--font-display);font-size:17px;font-weight:500;letter-spacing:.015em; }
+.district-marker small,.readout-description,.map-atmosphere,.district-scene [class$="-intro"],.district-route li p,.district-console [role="tabpanel"],.district-layout aside p,.district-nightlog li p { font-family:var(--font-ui);font-size:13px;letter-spacing:.015em;line-height:1.9; }
+.district-scene [class$="-intro"] { font-size:15px;line-height:1.95; }
+.district-route li b,.district-nightlog b { font-family:var(--font-ui);font-weight:600;letter-spacing:.01em; }
+.city-index a,.readout-link { font-family:var(--font-ui);letter-spacing:.015em; }
+.district-console [role="tab"] { font-family:var(--font-ui);font-size:13px;font-weight:500; }
+@media(max-width:680px) {
+  .map-heading h1 { font-size:36px; }
+  .district-scene h1 { font-size:clamp(36px,10vw,50px); }
+  .district-scene [class$="-intro"] { font-size:13px; }
+  .district-marker strong { font-size:15px; }
+}
+
