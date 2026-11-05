@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#101a12">
+  <meta name="description" content="地下机修层的电缆、冷却回路与供能节点维护记录。"><title>地下机修层｜夜航城区</title>
+  <link rel="stylesheet" href="../assets/site.css"><script defer src="../assets/site.js"></script>
+  <noscript><style>.district-console [role="tablist"]{display:none!important}.district-console [data-control-panel][hidden]{display:block!important}</style></noscript>
+</head>
+<body class="district-page" data-district="underworks">
+  <header class="district-header"><a href="../index.html">← 返回夜航城区图</a><span>N-06 / DISTRICT U-04</span><a href="harbor.html">沿供能干线前往港务区 →</a></header>
+  <main class="district-layout">
+    <section class="district-scene underworks-scene" aria-labelledby="page-title">
+      <div class="scene-geometry" aria-hidden="true"><i class="underworks-geometry-cable"></i><i class="underworks-geometry-pipe"></i><i class="underworks-geometry-switch"></i><i class="underworks-geometry-warning"></i></div>
+      <div class="district3d-stage" aria-hidden="true"><div class="district3d-world"></div></div><div class="district3d-controls" aria-label="街区镜头控制"><span>镜头 / FREE LOOK</span><button type="button" data-district-turn="-12" aria-label="向左旋转街区">↶</button><button type="button" data-district-turn="12" aria-label="向右旋转街区">↷</button><button type="button" data-district-reset>重置</button></div>
+      <div class="scene-index">U-04 <span>23:27 LOCAL</span></div><p class="scene-kicker">SUBLEVEL SERVICE GRID / CREW ACCESS</p><h1 id="page-title">地下机修层</h1>
+      <p class="scene-data">冷却回路 2 号巡检中 · 主馈线稳定 · 维修通道 B 开放</p>
+      <p class="underworks-intro">城区下方并不是空洞的地基，而是一层层供能、散热与通信设施交错铺开的机修空间。地面上的每一道灯光都能在这里找到对应的线路标牌；黄色护栏把高压区域隔开，巡检员沿绿色地灯行走，逐点核对温度和负载。</p>
+      <p class="underworks-intro">维修班按“先隔离、再复测、最后交接”的顺序处理告警。旧图纸仍钉在控制间墙上，新加的线路则用耐油标签标出日期与责任班组，避免一次临修在下一轮检修时失去来历。</p>
+    </section>
+    <section class="district-route underworks-route" aria-labelledby="underworks-route-title"><div><p class="scene-kicker">SERVICE CORRIDOR / NODE REGISTER</p><h2 id="underworks-route-title">机修巡线</h2></div>
+      <ol>
+        <li><b>01 · 铜脊电缆廊</b><p>主馈线沿拱形廊顶排列，每束电缆都有独立标号与热敏贴片。检修人员从外侧踏台巡查，不跨越地面上标出的隔离线。</p><p>廊道记录牌按小时写下负载峰值，电缆温度若连续两次偏高，就会被调度台标成待复核节点。</p></li>
+        <li><b>02 · 冷却泵房</b><p>两组循环泵把热量送往上层散热槽，泵房地面铺有防滑格栅。透明检视窗可以观察回水颜色与气泡，避免不必要地打开带压管路。</p><p>值班员每班记录振动、压力和阀门位置。备用泵仅在主泵停机或流量不足时启动，切换过程需要两人交叉确认。</p></li>
+        <li><b>03 · 负载分配柜</b><p>分配柜把城区照明、交通信号与公共服务设备分组供电，手动断路开关前设有机械锁扣。柜门上的简图标出每个回路影响的街区。</p><p>夜间负载较低时，调度员会调整可延后的充电和清洗设备；医院、站台与巷口广播始终保留优先级，不参与轮换。</p></li>
+        <li><b>04 · 交接记录间</b><p>记录间内保留纸本巡检册和一台只读终端。所有临时旁路都要附上拆除时间，交班前还须把实体钥匙归回对应的封签板。</p><p>旧告警不会被直接删除，而是加注复测结果与处理人。长期异常会转交设施档案组，供下一次线路改造时追查。</p></li>
+      </ol>
+    </section>
+    <section class="district-console underworks-console" data-control-group="underworks" aria-labelledby="underworks-console-title"><p class="scene-kicker">MAINTENANCE TERMINAL / THREE NODES</p><h2 id="underworks-console-title">检查维修节点</h2>
+      <div role="tablist" aria-label="机修层检修节点">
+        <button type="button" role="tab" data-control-button aria-selected="true" aria-controls="under-panel-cable" id="under-tab-cable">馈线 04</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="under-panel-cooling" id="under-tab-cooling">冷却 02</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="under-panel-distribution" id="under-tab-distribution">配电 11</button>
+      </div>
+      <article role="tabpanel" data-control-panel id="under-panel-cable" aria-labelledby="under-tab-cable"><h3>馈线 04 · 已复测，保持运行</h3><p><b>节点状态：</b>铜脊廊西侧接头曾出现轻微温升。负载已分流 6%，复测温度回到允许范围，绝缘层无可见破损。</p><p><b>维护记录：</b>23:05 由甲班完成扭矩复核；封签编号 K-184 保留至本周例检，期间每半小时读取一次热敏贴片。</p></article>
+      <article role="tabpanel" data-control-panel id="under-panel-cooling" aria-labelledby="under-tab-cooling" hidden><h3>冷却 02 · 观察运行，备泵待命</h3><p><b>节点状态：</b>回水压力轻微波动，当前流量足以支撑全区散热。主泵保持运行，备用泵处于可切换状态。</p><p><b>维护记录：</b>23:18 清理入口滤网后波动减弱；乙班将在 23:40 复测振动值，若再升高则先关闭北侧支路。</p></article>
+      <article role="tabpanel" data-control-panel id="under-panel-distribution" aria-labelledby="under-tab-distribution" hidden><h3>配电 11 · 隔离完成，等待换件</h3><p><b>节点状态：</b>档案北库外侧的检修插座已断电并挂锁，周边公共照明由备用回路供电。作业区保持黄色围栏封闭。</p><p><b>维护记录：</b>23:21 发现插座盖板松动，甲班完成隔离并申请新组件；预计 00:10 后复工，拆下零件将带回记录间检测。</p></article>
+    </section>
+    <aside class="underworks-protocol"><h2>值班交接规程</h2><p><b>确认隔离：</b>操作前读出回路编号，由第二人复诵并检查机械锁扣。</p><p><b>记录读数：</b>温度、压力和负载均记下实测值，不以“正常”代替数字。</p><p><b>恢复供能：</b>先清点工具和人员，再撤除旁路；完成后通知受影响街区的值守点。</p></aside>
+  <section class="district-nightlog" aria-labelledby="nightlog-title"><header><p class="scene-kicker">LIVE FIELD LOG / 23:00—00:30</p><h2 id="nightlog-title">本时段现场动态</h2><p>节点记录来自街区值班台，每条变化都会影响可走的路线与开放状态。</p></header><ol><li><time>23:16</time><b>馈线 04 复测完成</b><p>温升回到常态区间，隔离牌保留至白班签字。巡检员绕开积水段，从西侧检修桥返回。</p></li>
+<li><time>23:37</time><b>冷却 02 切换观察</b><p>备用泵已进入低速运行，压力读数每三分钟回报一次；维修通道暂不允许搬运大件。</p></li>
+<li><time>00:02</time><b>工具箱完成交接</b><p>扭矩扳手与绝缘毯已清点入柜，值班表留下三处待复核接点供晨班处理。</p></li></ol></section>
+  </main>
+  <footer class="district-footer"><span>夜航城区 · 地下机修层 U-04</span><a href="../index.html">返回街区地图</a><span>供能联络：港务区 H-05</span></footer>
+</body>
+</html>
+
+
+
+
+
