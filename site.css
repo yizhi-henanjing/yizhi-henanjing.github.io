@@ -41,3 +41,35 @@ body.leaving{opacity:0;pointer-events:none;transition:opacity 180ms var(--ease-o
 
 /* Quiet, user-controlled soundtrack dock. */
 
+
+/* Route notes: a quiet field guide with three selectable stops. */
+.route-explorer{padding-top:68px;padding-bottom:25px;border-top:1px solid var(--line)}
+.route-heading{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(280px,1.2fr);gap:9%;align-items:end;margin-bottom:30px}
+.route-heading small{font-size:10px;color:var(--red);letter-spacing:.14em}
+.route-heading h2{font-size:27px;font-weight:400;letter-spacing:.08em;margin:10px 0 0}
+.route-heading>p{max-width:570px;color:var(--muted);font-size:13px;line-height:2;margin:0 0 2px}
+.route-body{display:grid;grid-template-columns:minmax(190px,.68fr) minmax(0,1.32fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);min-height:300px}
+.route-tabs{display:flex;flex-direction:column;border-right:1px solid var(--line);padding:13px 22px 13px 0}
+.route-tab{width:100%;display:grid;grid-template-columns:32px 1fr 18px;gap:11px;align-items:center;text-align:left;border:0;border-bottom:1px solid transparent;background:transparent;color:var(--muted);padding:13px 8px;cursor:pointer;font-family:var(--serif);transition:color .2s,background .2s}
+.route-tab:hover{color:var(--ink);background:#eeebe3}
+.route-tab.is-active{color:var(--ink);border-bottom-color:var(--red)}
+.route-tab-no{font:10px Arial,sans-serif;color:var(--red);letter-spacing:.1em}
+.route-tab strong{display:block;font-weight:400;font-size:14px;letter-spacing:.05em}
+.route-tab small{display:block;margin-top:4px;color:var(--muted);font-size:10px}
+.route-tab>b{font:13px Arial,sans-serif;color:var(--red);opacity:0;transform:translate(-3px,3px);transition:opacity .2s,transform .2s}
+.route-tab.is-active>b{opacity:1;transform:translate(0,0)}
+.route-tab:focus-visible{outline:1px solid var(--red);outline-offset:2px}
+.route-panels{padding:27px clamp(22px,5vw,66px) 24px}
+.route-panel[hidden]{display:none}
+.route-panel{animation:route-in .28s var(--ease-out) both}
+.route-panel>small{font:10px Arial,sans-serif;color:var(--red);letter-spacing:.12em}
+.route-panel h3{font-size:21px;line-height:1.7;font-weight:400;letter-spacing:.05em;margin:8px 0 12px}
+.route-panel>p{font-size:12px;line-height:2.05;color:var(--muted);margin:0 0 9px}
+.route-practice{display:grid;grid-template-columns:100px 1fr;gap:12px;align-items:start;margin-top:18px;padding-top:13px;border-top:1px solid var(--line)}
+.route-practice>span{font-size:10px;letter-spacing:.08em;color:var(--red)}
+.route-practice p{font-size:11px;line-height:1.9;color:var(--ink);margin:0}
+.route-foot{display:flex;justify-content:space-between;padding-top:10px;color:var(--muted);font-size:9px;letter-spacing:.07em}
+@keyframes route-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:720px){.route-explorer{padding-top:48px}.route-heading{grid-template-columns:1fr;gap:12px;margin-bottom:20px}.route-heading h2{font-size:23px}.route-body{grid-template-columns:1fr;min-height:0}.route-tabs{flex-direction:row;border-right:0;border-bottom:1px solid var(--line);padding:7px 0;gap:4px}.route-tab{grid-template-columns:20px 1fr 10px;gap:5px;padding:9px 6px}.route-tab strong{font-size:12px}.route-tab small{font-size:9px}.route-panels{padding:20px 5px 18px}.route-panel h3{font-size:18px}.route-practice{grid-template-columns:78px 1fr}.route-foot{gap:12px}.route-foot span:last-child{text-align:right}}
+@media(prefers-reduced-motion:reduce){.route-panel{animation:none}}
+
