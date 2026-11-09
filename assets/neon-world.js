@@ -83,6 +83,8 @@
       box(item.x+side*1.05*scale,.92*scale,item.z-3.1*scale,.2*scale,1.8*scale,.2*scale,c);
       box(item.x+side*1.05*scale,1.87*scale,item.z-3.1*scale,.34*scale,.12*scale,.34*scale,choose(colors,item.color+2));
     }
+    box(item.x,2.0*scale,item.z-3.1*scale,2.28*scale,.16*scale,.24*scale,c);
+    box(item.x,2.12*scale,item.z-3.1*scale,1.3*scale,.055*scale,.28*scale,'#f4f0ff');
   };
 
   // City floor, luminous lane markings and blocks.
@@ -92,10 +94,11 @@
   for(let lane=key==='home'?-45:-25;lane<=(key==='home'?45:25);lane+=10){box(lane,.035,0,.72,.07,gridExtent*2,'#162b42');box(lane,.08,0,.08,.04,gridExtent*2,choose(colors,lane+40));}
   for(let z=key==='home'?-40:-24;z<=(key==='home'?40:24);z+=12){box(0,.04,z,key==='home'?90:55,.08,.62,'#1b3450');}
   // Broad asphalt lanes and raised curbs give the camera a ground-level street to follow.
-  box(0,.028,0,5,.055,gridExtent*2,'#101a2d');
-  box(-2.42,.09,0,.13,.1,gridExtent*2,colors[0]);box(2.42,.09,0,.13,.1,gridExtent*2,colors[1]);
-  box(0,.028,0,gridExtent*2,.055,5,'#101a2d');
-  box(0,.09,-2.42,gridExtent*2,.1,.13,colors[2]);box(0,.09,2.42,gridExtent*2,.1,.13,colors[3]);
+  const avenueWidth=key==='home'?8:5,curb=avenueWidth/2-.16;
+  box(0,.028,0,avenueWidth,.055,gridExtent*2,'#101a2d');
+  box(-curb,.09,0,.13,.1,gridExtent*2,colors[0]);box(curb,.09,0,.13,.1,gridExtent*2,colors[1]);
+  box(0,.028,0,gridExtent*2,.055,avenueWidth,'#101a2d');
+  box(0,.09,-curb,gridExtent*2,.1,.13,colors[2]);box(0,.09,curb,gridExtent*2,.1,.13,colors[3]);
   if(key==='home'){
     districts.forEach(item=>makeDistrict(item,.77));
     for(let n=0;n<24;n++){
@@ -185,7 +188,11 @@
   const showMessage=text=>{if(message){message.textContent=text;message.classList.add('is-new');setTimeout(()=>message?.classList.remove('is-new'),700);}};
   const visited=new Set();
   const landmarks=key==='home'?districts:[{...primary,x:0,z:0}, {id:'signal',name:'能量信标',x:0,z:-7}, {id:'overlook',name:'空中观景台',x:7,z:5}, {id:'cache',name:'隐藏补给',x:-7,z:6}];
-  const player={x:0,z:key==='home'?9:(key==='harbor'?-12:12),yaw:key==='harbor'?Math.PI:0};
+  if(key==='home')document.querySelectorAll('.city-map-canvas .district-marker').forEach(marker=>marker.addEventListener('click',event=>{
+    const destination=landmarks.find(item=>item.id===marker.dataset.district);
+    if(destination&&Math.hypot(destination.x-player.x,destination.z-player.z)>7){event.preventDefault();showMessage(`入口还在 ${Math.round(Math.hypot(destination.x-player.x,destination.z-player.z))}m 外，沿灯带走近它。`);}
+  }));
+  const player={x:key==='home'?3.4:0,z:key==='home'?37:(key==='harbor'?-12:12),yaw:key==='harbor'?Math.PI:0};
   let yaw=player.yaw,pitch=.25,distance=12.5,cameraX=player.x,cameraZ=player.z,drag=null,moved=false,walkPhase=0,activeLandmark=null,lastHudUpdate=0;
   const keys=new Set();
   touch.querySelectorAll('[data-key]').forEach(button=>{const down=e=>{e.preventDefault();keys.add(button.dataset.key);button.classList.add('is-pressed');};const up=()=>{keys.delete(button.dataset.key);button.classList.remove('is-pressed');};button.addEventListener('pointerdown',down);button.addEventListener('pointerup',up);button.addEventListener('pointerleave',up);button.addEventListener('pointercancel',up);});
@@ -199,7 +206,7 @@
   stage.addEventListener('pointerup',e=>{if(drag&&!moved){const rect=canvas.getBoundingClientRect(),px=(e.clientX-rect.left)/rect.width*2-1,py=1-(e.clientY-rect.top)/rect.height*2;let nearest=null,dist=Infinity;for(const item of landmarks){const dx=px-item.screenX,dy=py-item.screenY,d=dx*dx+dy*dy;if(Number.isFinite(d)&&d<dist){nearest=item;dist=d;}}if(nearest&&dist<.014&&Math.hypot(nearest.x-player.x,nearest.z-player.z)<11){activeLandmark=nearest;interact();}else if(nearest){showMessage('信标离得还远，沿着灯带走近一些。');}}
     drag=null;});
   stage.addEventListener('wheel',e=>{if(!stage.matches(':hover'))return;e.preventDefault();distance=Math.max(11,Math.min(22,distance+Math.sign(e.deltaY)*1));},{passive:false});
-  document.querySelector('[data-city-reset], [data-district-reset]')?.addEventListener('click',()=>{yaw=player.yaw=key==='harbor'?Math.PI:0;pitch=.25;distance=12.5;player.x=0;player.z=key==='home'?9:(key==='harbor'?-12:12);cameraX=player.x;cameraZ=player.z;});
+  document.querySelector('[data-city-reset], [data-district-reset]')?.addEventListener('click',()=>{yaw=player.yaw=key==='harbor'?Math.PI:0;pitch=.25;distance=12.5;player.x=key==='home'?3.4:0;player.z=key==='home'?37:(key==='harbor'?-12:12);cameraX=player.x;cameraZ=player.z;});
   document.querySelectorAll('[data-city-turn],[data-district-turn]').forEach(button=>button.addEventListener('click',()=>yaw-=Number(button.dataset.cityTurn||button.dataset.districtTurn)*Math.PI/180));
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let start=performance.now(),prev=start;
@@ -222,7 +229,8 @@
     }
     cameraX+=(player.x-cameraX)*Math.min(1,dt*7);cameraZ+=(player.z-cameraZ)*Math.min(1,dt*7);
     const eye=[cameraX+Math.sin(yaw)*distance,1.55+Math.sin(pitch)*distance,cameraZ+Math.cos(yaw)*distance];
-    const target=[cameraX-Math.sin(yaw)*4.2,1.8,cameraZ-Math.cos(yaw)*4.2];
+    const lookAhead=key==='home'?1.2:4.2;
+    const target=[cameraX-Math.sin(yaw)*lookAhead,1.8,cameraZ-Math.cos(yaw)*lookAhead];
     const proj=perspective(.82,canvas.width/canvas.height,.1,150),view=lookAt(eye,target);viewProjection=multiply(proj,view);
     gl.enable(gl.DEPTH_TEST);gl.clearColor(.012,.018,.052,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.tick,reduced?0:t*3.4);
     gl.uniform3f(loc.tint,1,1,1);setAttr(bp,loc.p);setAttr(bc,loc.c);gl.uniformMatrix4fv(loc.mvp,false,viewProjection);gl.drawArrays(gl.TRIANGLES,0,staticP.length/3);
@@ -235,7 +243,9 @@
     drawPart(-.16,.48,0,.2,.68,.22,'#26345b',-gait*.8);drawPart(.16,.48,0,.2,.68,.22,'#3a2d60',gait*.8);
     drawPart(-.16,.12,-.08,.3,.16,.4,'#ff4fb8');drawPart(.16,.12,-.08,.3,.16,.4,'#35f6ff');
     activeLandmark=null;let nearestDistance=Infinity;
-    for(const item of landmarks){const d=Math.hypot(item.x-player.x,item.z-player.z);if(d<nearestDistance){nearestDistance=d;activeLandmark=item;}const p=[item.x,1.6,item.z],clip=viewProjection;const x=clip[0]*p[0]+clip[4]*p[1]+clip[8]*p[2]+clip[12],y=clip[1]*p[0]+clip[5]*p[1]+clip[9]*p[2]+clip[13],w=clip[3]*p[0]+clip[7]*p[1]+clip[11]*p[2]+clip[15];item.screenX=x/w;item.screenY=y/w;}
+    for(const item of landmarks){const d=Math.hypot(item.x-player.x,item.z-player.z);if(d<nearestDistance){nearestDistance=d;activeLandmark=item;}const p=[item.x,2.4,item.z-3.1],clip=viewProjection;const x=clip[0]*p[0]+clip[4]*p[1]+clip[8]*p[2]+clip[12],y=clip[1]*p[0]+clip[5]*p[1]+clip[9]*p[2]+clip[13],w=clip[3]*p[0]+clip[7]*p[1]+clip[11]*p[2]+clip[15];item.screenX=x/w;item.screenY=y/w;
+      if(key==='home'){const marker=document.querySelector(`.city-map-canvas .district-marker[data-district="${item.id}"]`),visible=w>0&&Math.abs(item.screenX)<.94&&Math.abs(item.screenY)<.94;if(marker){marker.style.left=`${(item.screenX+1)*50}%`;marker.style.top=`${(1-item.screenY)*50}%`;marker.style.opacity=visible?'1':'0';marker.style.pointerEvents=visible?'auto':'none';}}
+    }
     if(nearestDistance>8)activeLandmark=null;
     reticle.classList.toggle('is-active',Boolean(activeLandmark));
     if(now-lastHudUpdate>250){const small=status.querySelector('small');if(small&&!message?.classList.contains('is-new'))small.textContent=activeLandmark?`按 E 调查：${activeLandmark.name} · ${Math.round(nearestDistance)}m`:`最近信标 ${Math.round(nearestDistance)}m · 沿霓虹路面前进`;lastHudUpdate=now;}
