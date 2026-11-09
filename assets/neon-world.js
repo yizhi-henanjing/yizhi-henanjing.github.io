@@ -31,22 +31,23 @@
   const gl = canvas.getContext('webgl', { antialias: true, alpha: false, powerPreference: 'high-performance' });
   if (!gl) { canvas.remove(); document.body.classList.remove('neon-world-active'); return; }
 
-  const vertex = `attribute vec3 p; attribute vec3 c; uniform mat4 mvp; uniform vec3 tint; varying vec3 v; void main(){v=c*tint;gl_Position=mvp*vec4(p,1.0);}`;
-  const fragment = `precision mediump float; varying vec3 v; uniform float tick; void main(){float pulse=.82+.18*sin(tick+gl_FragCoord.y*.018);gl_FragColor=vec4(v*pulse,1.0);}`;
+  const vertex = `attribute vec3 p; attribute vec3 c; attribute vec3 n; uniform mat4 mvp; uniform vec3 tint; varying vec3 v; varying vec3 normal; varying float viewDistance; void main(){v=c*tint;normal=n;gl_Position=mvp*vec4(p,1.0);viewDistance=gl_Position.w;}`;
+  const fragment = `precision mediump float; varying vec3 v; varying vec3 normal; varying float viewDistance; uniform float tick; void main(){vec3 light=normalize(vec3(-.42,.82,.38));float shade=.38+.62*max(dot(normalize(normal),light),0.0);float pulse=.86+.14*sin(tick+gl_FragCoord.y*.018);float fog=smoothstep(36.0,92.0,viewDistance);vec3 lit=v*shade*pulse;gl_FragColor=vec4(mix(lit,vec3(.018,.024,.075),fog),1.0);}`;
   const shader = (type, source) => { const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s; };
   const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);
   if(!gl.getProgramParameter(program,gl.LINK_STATUS))return;
-  const loc={p:gl.getAttribLocation(program,'p'),c:gl.getAttribLocation(program,'c'),mvp:gl.getUniformLocation(program,'mvp'),tick:gl.getUniformLocation(program,'tick'),tint:gl.getUniformLocation(program,'tint')};
+  const loc={p:gl.getAttribLocation(program,'p'),c:gl.getAttribLocation(program,'c'),n:gl.getAttribLocation(program,'n'),mvp:gl.getUniformLocation(program,'mvp'),tick:gl.getUniformLocation(program,'tick'),tint:gl.getUniformLocation(program,'tint')};
   const cube=[
     [-.5,-.5,.5,.5,-.5,.5,.5,.5,.5,-.5,-.5,.5,.5,.5,.5,-.5,.5,.5], [.5,-.5,-.5,-.5,-.5,-.5,-.5,.5,-.5,.5,-.5,-.5,-.5,.5,-.5,.5,.5,-.5],
     [-.5,-.5,-.5,-.5,-.5,.5,-.5,.5,.5,-.5,-.5,-.5,-.5,.5,.5,-.5,.5,-.5], [.5,-.5,.5,.5,-.5,-.5,.5,.5,-.5,.5,-.5,.5,.5,.5,-.5,.5,.5,.5],
     [-.5,.5,.5,.5,.5,.5,.5,.5,-.5,-.5,.5,.5,.5,.5,-.5,-.5,.5,-.5], [-.5,-.5,-.5,.5,-.5,-.5,.5,-.5,.5,-.5,-.5,-.5,.5,-.5,.5,-.5,-.5,.5]
   ].flat();
-  const staticP=[],staticC=[],dynamic=[],solids=[];
+  const cubeNormals=[[0,0,1],[0,0,-1],[-1,0,0],[1,0,0],[0,1,0],[0,-1,0]].flatMap(n=>Array(6).fill(n).flat());
+  const staticP=[],staticC=[],staticN=[],dynamic=[],solids=[];
   const hex=h=>{h=h.replace('#','');return [parseInt(h.slice(0,2),16)/255,parseInt(h.slice(2,4),16)/255,parseInt(h.slice(4,6),16)/255];};
   const box=(x,y,z,w,h,d,color,into=staticP)=>{
     const c=hex(color),targetC=into===staticP?staticC:null;
-    for(let i=0;i<cube.length;i+=3){into.push(cube[i]*w+x,cube[i+1]*h+y,cube[i+2]*d+z);if(targetC)targetC.push(...c);}
+    for(let i=0;i<cube.length;i+=3){into.push(cube[i]*w+x,cube[i+1]*h+y,cube[i+2]*d+z);if(targetC){targetC.push(...c);staticN.push(...cubeNormals.slice(i,i+3));}}
   };
   const choose=(array,n)=>array[(n%array.length+array.length)%array.length];
   const makeBuilding=(x,z,w,d,h,n,glow)=>{
@@ -101,6 +102,21 @@
   box(0,.09,-curb,gridExtent*2,.1,.13,colors[2]);box(0,.09,curb,gridExtent*2,.1,.13,colors[3]);
   if(key==='home'){
     districts.forEach(item=>makeDistrict(item,.77));
+    // A closer boulevard corridor gives the walkable city a strong street scale.
+    for(let row=0;row<6;row++)for(const side of [-1,1]){
+      const z=29-row*10.5,x=side*(8.5+(row%2)*1.15),h=10+(row*7%13)*1.2,w=2.8+(row%3)*.55;
+      makeBuilding(x,z,w,4.2,h,80+row*2+(side>0?1:0),choose(colors,row+(side>0?1:0)));
+      box(x,h*.72,z+2.15,w*.86,.22,.12,choose(colors,row+2));
+      box(x,h*.72+.22,z+2.15,w*.56,.055,.14,'#f3efff');
+      box(x,h+.35,z,w*.52,.16,3.8,choose(colors,row+3));
+    }
+    // Elevated transit crossovers frame the avenue and make the skyline readable in motion.
+    for(const z of [18,-5,-27]){
+      box(0,7.2,z,15,.22,.32,colors[Math.abs(z/5|0)%4]);
+      box(0,6.82,z,13.5,.08,.18,'#18243c');
+      for(const x of [-7.1,7.1])box(x,3.55,z,.16,7.1,.2,choose(colors,Math.round(x+z)));
+      for(let x=-5.5;x<=5.5;x+=2.2)box(x,7.38,z,.08,.18,.08,colors[1]);
+    }
     for(let n=0;n<24;n++){
       const angle=n*Math.PI*2/24,radius=29+(n%3)*3.5,x=Math.cos(angle)*radius,z=Math.sin(angle)*radius;
       makeBuilding(x,z,1.5+(n%3)*.45,1.6+(n%2)*.5,7+(n%5)*1.5,n+40,choose(colors,n+1));
@@ -172,7 +188,7 @@
   for(let i=0;i<6;i++)dynamic.push({x:-17+i*6.5,y:4+(i%3)*1.15,z:((i*11)%29)-14,w:.38,h:.3,d:.38,c:colors[(i+2)%4],speed:.5+(i%3)*.16,axis:'z',phase:i*1.7});
 
   const buffer=(data)=>{const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW);return b;};
-  const bp=buffer(staticP),bc=buffer(staticC);
+  const bp=buffer(staticP),bc=buffer(staticC),bn=buffer(staticN),cn=buffer(cubeNormals);
   const cubePositions=buffer(cube),cubeColor=buffer(Array.from({length:36},()=>[1,1,1]).flat());
   const setAttr=(buf,loc)=>{gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,0,0);};
 
@@ -193,7 +209,7 @@
     if(destination&&Math.hypot(destination.x-player.x,destination.z-player.z)>7){event.preventDefault();showMessage(`入口还在 ${Math.round(Math.hypot(destination.x-player.x,destination.z-player.z))}m 外，沿灯带走近它。`);}
   }));
   const player={x:key==='home'?3.4:0,z:key==='home'?37:(key==='harbor'?-12:12),yaw:key==='harbor'?Math.PI:0};
-  let yaw=player.yaw,pitch=.25,distance=12.5,cameraX=player.x,cameraZ=player.z,drag=null,moved=false,walkPhase=0,activeLandmark=null,lastHudUpdate=0;
+  let yaw=player.yaw,pitch=.25,distance=7.8,cameraX=player.x,cameraZ=player.z,drag=null,moved=false,walkPhase=0,activeLandmark=null,lastHudUpdate=0;
   const keys=new Set();
   touch.querySelectorAll('[data-key]').forEach(button=>{const down=e=>{e.preventDefault();keys.add(button.dataset.key);button.classList.add('is-pressed');};const up=()=>{keys.delete(button.dataset.key);button.classList.remove('is-pressed');};button.addEventListener('pointerdown',down);button.addEventListener('pointerup',up);button.addEventListener('pointerleave',up);button.addEventListener('pointercancel',up);});
   const resize=()=>{const rect=stage.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,1.7);canvas.width=Math.max(1,Math.floor(rect.width*dpr));canvas.height=Math.max(1,Math.floor(rect.height*dpr));canvas.style.width='100%';canvas.style.height='100%';gl.viewport(0,0,canvas.width,canvas.height);};
@@ -205,8 +221,8 @@
   const interact=()=>{if(!activeLandmark){showMessage('先沿街走近发光信标，再按 E 调查。');return;}visited.add(activeLandmark.id);showMessage(activeLandmark.id==='signal'?'信标已接入：本区供能状态稳定。':activeLandmark.id==='overlook'?'观景台已标记：可俯瞰整片城区。':activeLandmark.id==='cache'?'发现隐藏补给：夜班维修包 +1。':`已抵达 ${activeLandmark.name}，街区入口已标记。`);const marker=document.querySelector(`.district-marker[data-district="${activeLandmark.id}"]`);if(marker&&key==='home')marker.click();};
   stage.addEventListener('pointerup',e=>{if(drag&&!moved){const rect=canvas.getBoundingClientRect(),px=(e.clientX-rect.left)/rect.width*2-1,py=1-(e.clientY-rect.top)/rect.height*2;let nearest=null,dist=Infinity;for(const item of landmarks){const dx=px-item.screenX,dy=py-item.screenY,d=dx*dx+dy*dy;if(Number.isFinite(d)&&d<dist){nearest=item;dist=d;}}if(nearest&&dist<.014&&Math.hypot(nearest.x-player.x,nearest.z-player.z)<11){activeLandmark=nearest;interact();}else if(nearest){showMessage('信标离得还远，沿着灯带走近一些。');}}
     drag=null;});
-  stage.addEventListener('wheel',e=>{if(!stage.matches(':hover'))return;e.preventDefault();distance=Math.max(11,Math.min(22,distance+Math.sign(e.deltaY)*1));},{passive:false});
-  document.querySelector('[data-city-reset], [data-district-reset]')?.addEventListener('click',()=>{yaw=player.yaw=key==='harbor'?Math.PI:0;pitch=.25;distance=12.5;player.x=key==='home'?3.4:0;player.z=key==='home'?37:(key==='harbor'?-12:12);cameraX=player.x;cameraZ=player.z;});
+  stage.addEventListener('wheel',e=>{if(!stage.matches(':hover'))return;e.preventDefault();distance=Math.max(6.3,Math.min(16,distance+Math.sign(e.deltaY)*.8));},{passive:false});
+  document.querySelector('[data-city-reset], [data-district-reset]')?.addEventListener('click',()=>{yaw=player.yaw=key==='harbor'?Math.PI:0;pitch=.25;distance=7.8;player.x=key==='home'?3.4:0;player.z=key==='home'?37:(key==='harbor'?-12:12);cameraX=player.x;cameraZ=player.z;});
   document.querySelectorAll('[data-city-turn],[data-district-turn]').forEach(button=>button.addEventListener('click',()=>yaw-=Number(button.dataset.cityTurn||button.dataset.districtTurn)*Math.PI/180));
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let start=performance.now(),prev=start;
@@ -215,7 +231,7 @@
     const cy=Math.cos(player.yaw),sy=Math.sin(player.yaw),cr=Math.cos(rotZ),sr=Math.sin(rotZ);
     const x=player.x+cy*localX+sy*localZ,z=player.z-sy*localX+cy*localZ;
     const matrix=new Float32Array([cy*cr*w,sr*w,-sy*cr*w,0,-cy*sr*h,cr*h,sy*sr*h,0,sy*d,0,cy*d,0,x,y,z,1]);
-    gl.uniformMatrix4fv(loc.mvp,false,multiply(viewProjection,matrix));gl.uniform3fv(loc.tint,hex(color));gl.drawArrays(gl.TRIANGLES,0,36);
+    gl.uniformMatrix4fv(loc.mvp,false,multiply(viewProjection,matrix));gl.uniform3fv(loc.tint,hex(color));setAttr(cn,loc.n);gl.drawArrays(gl.TRIANGLES,0,36);
   };
   const render=now=>{
     const t=(now-start)/1000,dt=Math.min(.04,(now-prev)/1000);prev=now;
@@ -233,8 +249,8 @@
     const target=[cameraX-Math.sin(yaw)*lookAhead,1.8,cameraZ-Math.cos(yaw)*lookAhead];
     const proj=perspective(.82,canvas.width/canvas.height,.1,150),view=lookAt(eye,target);viewProjection=multiply(proj,view);
     gl.enable(gl.DEPTH_TEST);gl.clearColor(.012,.018,.052,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.tick,reduced?0:t*3.4);
-    gl.uniform3f(loc.tint,1,1,1);setAttr(bp,loc.p);setAttr(bc,loc.c);gl.uniformMatrix4fv(loc.mvp,false,viewProjection);gl.drawArrays(gl.TRIANGLES,0,staticP.length/3);
-    setAttr(cubePositions,loc.p);setAttr(cubeColor,loc.c);
+    gl.uniform3f(loc.tint,1,1,1);setAttr(bp,loc.p);setAttr(bc,loc.c);setAttr(bn,loc.n);gl.uniformMatrix4fv(loc.mvp,false,viewProjection);gl.drawArrays(gl.TRIANGLES,0,staticP.length/3);
+    setAttr(cubePositions,loc.p);setAttr(cubeColor,loc.c);setAttr(cn,loc.n);
     for(const obj of dynamic){const phase=t*obj.speed+obj.phase;let x=obj.x,z=obj.z;if(obj.axis==='x')x=((obj.x+Math.sin(phase)*19+29)%58)-29;else z=((obj.z+Math.cos(phase)*14+15)%30)-15;const y=obj.y+(reduced?0:Math.sin(phase*1.7)*.13);const model=new Float32Array([obj.w,0,0,0,0,obj.h,0,0,0,0,obj.d,0,x,y,z,1]);gl.uniformMatrix4fv(loc.mvp,false,multiply(viewProjection,model));gl.uniform3fv(loc.tint,hex(obj.c));gl.drawArrays(gl.TRIANGLES,0,36);}
     const gait=moving?Math.sin(walkPhase)*.48:0;
     drawPart(0,1.13,0,.52,.76,.38,'#27dff2');drawPart(0,1.82,0,.43,.43,.43,'#e6e2ff');
