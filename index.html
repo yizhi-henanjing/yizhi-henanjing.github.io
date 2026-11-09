@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#080d16">
   <meta name="description" content="夜航城区地图：穿行六处街区，读取这座城市的深夜信号。">
   <title>夜航城区图｜N-06</title>
-  <link rel="stylesheet" href="assets/site.css?v=3d-neon-20261105">
+  <link rel="stylesheet" href="assets/site.css?v=street-game-20261105d">
   <script defer src="assets/site.js"></script>
-  <script type="module" src="assets/neon-world.js?v=3d-neon-20261105"></script>
+  <script type="module" src="assets/neon-world.js?v=street-game-20261105d"></script>
 </head>
 <body class="city-shell">
   <header class="city-header">
@@ -29,7 +29,7 @@
       <div class="city-map-canvas" role="group" aria-label="夜航城区街区地图">
         <div class="map-grid" aria-hidden="true"></div>
         <div class="map-skyline" aria-hidden="true"></div>
-        <div class="city3d-stage" aria-label="可拖动旋转的夜航城区立体模型"><div class="city3d-world" aria-hidden="true"></div></div>
+        <div class="city3d-stage" aria-label="可移动角色探索的夜航城区 3D 街道"><div class="city3d-world" aria-hidden="true"></div></div>
         <div class="map-orb" aria-hidden="true"><i></i></div>
         <div class="map-flightpath" aria-hidden="true"><i></i><i></i></div>
         <div class="map-block map-block--west" aria-hidden="true"></div>
@@ -62,7 +62,7 @@
         <span class="map-coordinate map-coordinate--a" aria-hidden="true">GRID 31.08 / 04.22</span>
         <span class="map-coordinate map-coordinate--b" aria-hidden="true">NIGHT BUS · ACTIVE</span>
       </div>
-      <div class="city3d-tools"><span>城市模型 / DRAG TO ROTATE · SCROLL TO ZOOM</span><button type="button" data-city-turn="-12" aria-label="向左旋转城市">↶</button><button type="button" data-city-turn="12" aria-label="向右旋转城市">↷</button><button type="button" data-city-reset>重置镜头</button></div>
+      <div class="city3d-tools"><span>第三人称探索 / WASD 行走 · 拖动转向</span><button type="button" data-city-turn="-12" aria-label="向左旋转城市">↶</button><button type="button" data-city-turn="12" aria-label="向右旋转城市">↷</button><button type="button" data-city-reset>重置镜头</button></div>
     </section>
 
     <aside class="city-readout" id="city-readout" aria-live="polite" aria-atomic="true">
@@ -86,4 +86,3 @@
   <footer class="city-footer"><span>夜航城区 · 城市节点 N-06</span><span>线路状态同步于 23:18 LOCAL</span></footer>
 </body>
 </html>
-
