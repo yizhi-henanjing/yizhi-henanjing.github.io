@@ -655,7 +655,7 @@ body.neon-world-active .district-marker:hover,
 body.neon-world-active .district-marker.is-selected { border-color:#ff55cf; box-shadow:0 0 25px #f429d477; }
 .neon-world-active .city-map-canvas { cursor:grab; }
 body.neon-world-active .city-layout { grid-template-columns:minmax(0,1fr);grid-template-areas:"map" "readout" "index"; }
-body.neon-world-active .city-map-canvas { min-height:clamp(440px,calc(100vh - 300px),780px);border-color:#40335f;background:radial-gradient(ellipse at 50% 44%,#181334,#070914 76%);box-shadow:0 26px 90px #000a,inset 0 0 100px #02040d; }
+body.neon-world-active .city-map-canvas { min-height:clamp(520px,calc(100vh - 220px),840px);border-color:#40335f;background:radial-gradient(ellipse at 50% 24%,#302060 0%,#171334 35%,#070914 78%);box-shadow:0 26px 90px #000a,inset 0 0 100px #02040d; }
 body.neon-world-active .city-map-panel { min-width:0; }
 body.neon-world-active .city-readout { margin-top:4px; }
 body.neon-world-active .city-map-canvas .district-marker {
@@ -683,7 +683,7 @@ body.neon-world-active .district-scene > h1,
 body.neon-world-active .district-scene > [class$="-intro"] { display:none!important; }
 body.neon-world-active .district-scene::after { display:none; }
 body.neon-world-active .district3d-stage::after { content:""; display:block; position:absolute; z-index:2; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 48%,transparent 46%,#07091855 100%); }
-.neon-world-canvas { filter:saturate(1.22) contrast(1.06); }
+.neon-world-canvas { filter:saturate(1.48) contrast(1.12) brightness(1.08); }
 @media(max-width:760px) {
   body.neon-world-active .city-map-canvas .district-marker { max-width:126px;padding:5px 7px; }
   body.neon-world-active .city-map-canvas .district-marker strong { font-size:10px; }
