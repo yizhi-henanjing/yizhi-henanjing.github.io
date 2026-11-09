@@ -42,7 +42,7 @@
     [-.5,-.5,-.5,-.5,-.5,.5,-.5,.5,.5,-.5,-.5,-.5,-.5,.5,.5,-.5,.5,-.5], [.5,-.5,.5,.5,-.5,-.5,.5,.5,-.5,.5,-.5,.5,.5,.5,-.5,.5,.5,.5],
     [-.5,.5,.5,.5,.5,.5,.5,.5,-.5,-.5,.5,.5,.5,.5,-.5,-.5,.5,-.5], [-.5,-.5,-.5,.5,-.5,-.5,.5,-.5,.5,-.5,-.5,-.5,.5,-.5,.5,-.5,-.5,.5]
   ].flat();
-  const staticP=[],staticC=[],dynamic=[];
+  const staticP=[],staticC=[],dynamic=[],solids=[];
   const hex=h=>{h=h.replace('#','');return [parseInt(h.slice(0,2),16)/255,parseInt(h.slice(2,4),16)/255,parseInt(h.slice(4,6),16)/255];};
   const box=(x,y,z,w,h,d,color,into=staticP)=>{
     const c=hex(color),targetC=into===staticP?staticC:null;
@@ -50,6 +50,7 @@
   };
   const choose=(array,n)=>array[(n%array.length+array.length)%array.length];
   const makeBuilding=(x,z,w,d,h,n,glow)=>{
+    solids.push({x,z,w:w*.58+.4,d:d*.58+.4});
     const body=['#14233b','#1b2040','#142a3a','#211b3b'][n%4];
     box(x,h/2,z,w,h,d,body);
     box(x,h+.09,z,w*.56,.09,d*.56,glow);
@@ -90,6 +91,11 @@
   for(let i=-gridExtent;i<=gridExtent;i+=2){box(i,-.005,0,.022,.018,gridExtent*2,i%8===0?'#15324d':'#10243a');box(0,-.004,i,gridExtent*2,.018,.022,i%8===0?'#15324d':'#10243a');}
   for(let lane=key==='home'?-45:-25;lane<=(key==='home'?45:25);lane+=10){box(lane,.035,0,.72,.07,gridExtent*2,'#162b42');box(lane,.08,0,.08,.04,gridExtent*2,choose(colors,lane+40));}
   for(let z=key==='home'?-40:-24;z<=(key==='home'?40:24);z+=12){box(0,.04,z,key==='home'?90:55,.08,.62,'#1b3450');}
+  // Broad asphalt lanes and raised curbs give the camera a ground-level street to follow.
+  box(0,.028,0,5,.055,gridExtent*2,'#101a2d');
+  box(-2.42,.09,0,.13,.1,gridExtent*2,colors[0]);box(2.42,.09,0,.13,.1,gridExtent*2,colors[1]);
+  box(0,.028,0,gridExtent*2,.055,5,'#101a2d');
+  box(0,.09,-2.42,gridExtent*2,.1,.13,colors[2]);box(0,.09,2.42,gridExtent*2,.1,.13,colors[3]);
   if(key==='home'){
     districts.forEach(item=>makeDistrict(item,.77));
     for(let n=0;n<24;n++){
@@ -102,7 +108,34 @@
     box(0,1.72,0,48,.045,.09,colors[0]);box(0,1.86,0,48,.045,.09,colors[1]);
   }else{
     // The selected district is scaled up into a playable miniature level.
-    const center={...primary,x:0,z:0};makeDistrict(center,1.35);
+    const center={...primary,x:0,z:0};makeDistrict(center,1.0);
+    // Street-level blocks form a continuous avenue instead of a handful of floating props.
+    // Their lit shop fronts face the player as they enter the district.
+    for(let side of [-1,1]){
+      box(side*5.15,.12,0,1.15,.24,30,'#1a2037');
+      box(side*4.55,.17,0,.08,.09,30,choose(colors,side+3));
+      for(let n=0;n<5;n++){
+        const z=-10+n*5, h=5.5+(n*7%6)*1.35, w=2.5+(n%2)*.55, d=3.4;
+        const x=side*(7.15+(n%2)*.25);
+        makeBuilding(x,z,w,d,h,n+primary.color*17+(side>0?5:0),choose(colors,n+primary.color));
+        box(x,h*.48,z+d*.51,w*.94,.34,.12,choose(colors,n+primary.color+1));
+        box(x,h*.48,z+d*.58,w*.7,.055,.04,'#fff0cb');
+        box(x,h*.48+.55,z+d*.52,w*.98,.12,.18,'#17182e');
+        for(let awning=-1;awning<=1;awning++)box(x+awning*.68,.95,z+d*.65,.56,.16,.5,choose(colors,n+awning+2));
+      }
+    }
+    // A cross-street, overhead rails, and gantries give the level a readable scale.
+    box(0,.17,-15,18,.28,.72,'#18243a');
+    for(const x of [-8.5,8.5]){
+      box(x,5.4,-2,.18,10.8,.22,choose(colors,Math.round(x)));
+      box(x/2,10.7,-2,Math.abs(x),.18,.22,choose(colors,Math.round(x)+1));
+      box(x,3.8,11,.12,7.6,.16,choose(colors,Math.round(x)+2));
+    }
+    for(let n=0;n<7;n++){
+      const z=-14+n*4.5;
+      box(-3.35,.12,z,.08,.1,1.5,colors[n%4]);
+      box(3.35,.12,z,.08,.1,1.5,colors[(n+1)%4]);
+    }
     // Distinct skyline silhouettes make every neighborhood read differently.
     if(key==='loopline'){
       box(0,.9,-5,24,.45,2,'#13293b');box(0,1.25,-5,24,.12,2,colors[0]);
@@ -144,50 +177,75 @@
   const perspective=(fov,aspect,near,far)=>{const f=1/Math.tan(fov/2),nf=1/(near-far);return new Float32Array([f/aspect,0,0,0,0,f,0,0,0,0,(far+near)*nf,-1,0,0,2*far*near*nf,0]);};
   const lookAt=(eye,target)=>{let zx=eye[0]-target[0],zy=eye[1]-target[1],zz=eye[2]-target[2],l=Math.hypot(zx,zy,zz)||1;zx/=l;zy/=l;zz/=l;let xx=zz,xy=0,xz=-zx;l=Math.hypot(xx,xz)||1;xx/=l;xz/=l;const yx=-zy*xz,yy=zz*xx-zx*xz,yz=zx*xy-zy*xx;return new Float32Array([xx,yx,zx,0,xy,yy,zy,0,xz,yz,zz,0,-(xx*eye[0]+xy*eye[1]+xz*eye[2]),-(yx*eye[0]+yy*eye[1]+yz*eye[2]),-(zx*eye[0]+zy*eye[1]+zz*eye[2]),1]);};
   const status=document.createElement('div');status.className='neon-world-hud';
-  status.innerHTML=key==='home'?'<strong>自由漫游 / N-06</strong><span>WASD 移动 · 拖动转向 · 点击街区进入</span><small>浮空车流 · 动态灯牌 · 6 个可探索区域</small>':'<strong>区域探索 / '+(primary?.name||'N-06')+'</strong><span>WASD 移动 · 拖动转向 · 点击信标调查</span><small class="neon-world-message">发现街区里的隐藏节点，收集本地信号。</small>';
+  status.innerHTML=key==='home'?'<strong>第三人称漫游 / N-06</strong><span>WASD 行走 · 拖动转向 · 靠近街区入口进入</span><small class="neon-world-message">路边信标可调查 · 靠近后按 E</small>':'<strong>街道探索 / '+(primary?.name||'N-06')+'</strong><span>WASD 行走 · 拖动转向 · 靠近后按 E 调查</span><small class="neon-world-message">正在扫描附近的信标…</small>';
+  const reticle=document.createElement('i');reticle.className='neon-reticle';reticle.setAttribute('aria-hidden','true');
   const touch=document.createElement('div');touch.className='neon-touch-pad';touch.setAttribute('aria-label','触屏移动控制');touch.innerHTML='<button data-key="w" aria-label="向前">▲</button><span><button data-key="a" aria-label="向左">◀</button><button data-key="s" aria-label="向后">▼</button><button data-key="d" aria-label="向右">▶</button></span>';
-  stage.append(touch);
-  stage.append(status);
+  stage.append(touch,reticle,status);
   let message=status.querySelector('.neon-world-message');
   const showMessage=text=>{if(message){message.textContent=text;message.classList.add('is-new');setTimeout(()=>message?.classList.remove('is-new'),700);}};
   const visited=new Set();
   const landmarks=key==='home'?districts:[{...primary,x:0,z:0}, {id:'signal',name:'能量信标',x:0,z:-7}, {id:'overlook',name:'空中观景台',x:7,z:5}, {id:'cache',name:'隐藏补给',x:-7,z:6}];
-  let yaw=key==='home'?-0.55:0,pitch=key==='home' ? 0.88 : 0.48,distance=key==='home'?48:32,target=[0,0,0],drag=null,lastPointer=null,moved=false;
+  const player={x:0,z:key==='home'?9:(key==='harbor'?-12:12),yaw:key==='harbor'?Math.PI:0};
+  let yaw=player.yaw,pitch=.25,distance=12.5,cameraX=player.x,cameraZ=player.z,drag=null,moved=false,walkPhase=0,activeLandmark=null,lastHudUpdate=0;
   const keys=new Set();
   touch.querySelectorAll('[data-key]').forEach(button=>{const down=e=>{e.preventDefault();keys.add(button.dataset.key);button.classList.add('is-pressed');};const up=()=>{keys.delete(button.dataset.key);button.classList.remove('is-pressed');};button.addEventListener('pointerdown',down);button.addEventListener('pointerup',up);button.addEventListener('pointerleave',up);button.addEventListener('pointercancel',up);});
   const resize=()=>{const rect=stage.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,1.7);canvas.width=Math.max(1,Math.floor(rect.width*dpr));canvas.height=Math.max(1,Math.floor(rect.height*dpr));canvas.style.width='100%';canvas.style.height='100%';gl.viewport(0,0,canvas.width,canvas.height);};
   new ResizeObserver(resize).observe(stage);resize();
-  window.addEventListener('keydown',e=>{if(['w','a','s','d','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){keys.add(e.key.toLowerCase());if(e.key.startsWith('Arrow'))e.preventDefault();}});
+  window.addEventListener('keydown',e=>{if(['w','a','s','d','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Shift'].includes(e.key)){keys.add(e.key.toLowerCase());if(e.key.startsWith('Arrow'))e.preventDefault();}});
   window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
   stage.addEventListener('pointerdown',e=>{if(e.target.closest('a,button'))return;drag={x:e.clientX,y:e.clientY,yaw,pitch};moved=false;canvas.setPointerCapture?.(e.pointerId);});
   stage.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>3)moved=true;yaw=drag.yaw-dx*.006;pitch=Math.max(.18,Math.min(1.22,drag.pitch+dy*.0045));});
-  stage.addEventListener('pointerup',e=>{if(drag&&!moved){const rect=canvas.getBoundingClientRect(),px=(e.clientX-rect.left)/rect.width*2-1,py=1-(e.clientY-rect.top)/rect.height*2;let nearest=null,dist=Infinity;for(const item of landmarks){const dx=px-item.screenX,dy=py-item.screenY,d=dx*dx+dy*dy;if(Number.isFinite(d)&&d<dist){nearest=item;dist=d;}}if(nearest&&dist<.045){visited.add(nearest.id);showMessage(nearest.id==='signal'?'信标已接入：本区供能状态稳定。':nearest.id==='overlook'?'观景台已标记：可俯瞰整片城区。':nearest.id==='cache'?'发现隐藏补给：夜班维修包 +1。':`已锁定 ${nearest.name}，街区入口已点亮。`);const marker=document.querySelector(`.district-marker[data-district="${nearest.id}"]`);if(marker&&key==='home')marker.click();}}
+  const interact=()=>{if(!activeLandmark){showMessage('先沿街走近发光信标，再按 E 调查。');return;}visited.add(activeLandmark.id);showMessage(activeLandmark.id==='signal'?'信标已接入：本区供能状态稳定。':activeLandmark.id==='overlook'?'观景台已标记：可俯瞰整片城区。':activeLandmark.id==='cache'?'发现隐藏补给：夜班维修包 +1。':`已抵达 ${activeLandmark.name}，街区入口已标记。`);const marker=document.querySelector(`.district-marker[data-district="${activeLandmark.id}"]`);if(marker&&key==='home')marker.click();};
+  stage.addEventListener('pointerup',e=>{if(drag&&!moved){const rect=canvas.getBoundingClientRect(),px=(e.clientX-rect.left)/rect.width*2-1,py=1-(e.clientY-rect.top)/rect.height*2;let nearest=null,dist=Infinity;for(const item of landmarks){const dx=px-item.screenX,dy=py-item.screenY,d=dx*dx+dy*dy;if(Number.isFinite(d)&&d<dist){nearest=item;dist=d;}}if(nearest&&dist<.014&&Math.hypot(nearest.x-player.x,nearest.z-player.z)<11){activeLandmark=nearest;interact();}else if(nearest){showMessage('信标离得还远，沿着灯带走近一些。');}}
     drag=null;});
-  stage.addEventListener('wheel',e=>{if(!stage.matches(':hover'))return;e.preventDefault();distance=Math.max(key==='home'?27:13,Math.min(key==='home'?65:40,distance+Math.sign(e.deltaY)*2));},{passive:false});
-  document.querySelector('[data-city-reset], [data-district-reset]')?.addEventListener('click',()=>{yaw=key==='home'?-0.55:0;pitch=key==='home' ? 0.88 : 0.48;distance=key==='home'?48:32;target=[0,0,0];});
+  stage.addEventListener('wheel',e=>{if(!stage.matches(':hover'))return;e.preventDefault();distance=Math.max(11,Math.min(22,distance+Math.sign(e.deltaY)*1));},{passive:false});
+  document.querySelector('[data-city-reset], [data-district-reset]')?.addEventListener('click',()=>{yaw=player.yaw=key==='harbor'?Math.PI:0;pitch=.25;distance=12.5;player.x=0;player.z=key==='home'?9:(key==='harbor'?-12:12);cameraX=player.x;cameraZ=player.z;});
   document.querySelectorAll('[data-city-turn],[data-district-turn]').forEach(button=>button.addEventListener('click',()=>yaw-=Number(button.dataset.cityTurn||button.dataset.districtTurn)*Math.PI/180));
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let start=performance.now(),prev=start;
+  let viewProjection;
+  const drawPart=(localX,y,localZ,w,h,d,color,rotZ=0)=>{
+    const cy=Math.cos(player.yaw),sy=Math.sin(player.yaw),cr=Math.cos(rotZ),sr=Math.sin(rotZ);
+    const x=player.x+cy*localX+sy*localZ,z=player.z-sy*localX+cy*localZ;
+    const matrix=new Float32Array([cy*cr*w,sr*w,-sy*cr*w,0,-cy*sr*h,cr*h,sy*sr*h,0,sy*d,0,cy*d,0,x,y,z,1]);
+    gl.uniformMatrix4fv(loc.mvp,false,multiply(viewProjection,matrix));gl.uniform3fv(loc.tint,hex(color));gl.drawArrays(gl.TRIANGLES,0,36);
+  };
   const render=now=>{
     const t=(now-start)/1000,dt=Math.min(.04,(now-prev)/1000);prev=now;
     const forward=(keys.has('w')||keys.has('arrowup'))-(keys.has('s')||keys.has('arrowdown'));
     const sideways=(keys.has('d')||keys.has('arrowright'))-(keys.has('a')||keys.has('arrowleft'));
-    if(forward||sideways){target[0]+=(-Math.sin(yaw)*forward+Math.cos(yaw)*sideways)*dt*9;target[2]+=(-Math.cos(yaw)*forward-Math.sin(yaw)*sideways)*dt*9;target[0]=Math.max(-25,Math.min(25,target[0]));target[2]=Math.max(-25,Math.min(25,target[2]));}
-    const orbit=reduced?0:t*.055;const cameraYaw=yaw+orbit;
-    const eye=[target[0]+Math.sin(cameraYaw)*Math.cos(pitch)*distance,target[1]+Math.sin(pitch)*distance,target[2]+Math.cos(cameraYaw)*Math.cos(pitch)*distance];
-    const proj=perspective(.79,canvas.width/canvas.height,.1,150),view=lookAt(eye,[target[0],target[1]+1,target[2]]),vp=multiply(proj,view);
+    const moving=Boolean(forward||sideways);
+    if(moving){const length=Math.hypot(forward,sideways)||1,fx=-Math.sin(yaw)*forward/length+Math.cos(yaw)*sideways/length,fz=-Math.cos(yaw)*forward/length-Math.sin(yaw)*sideways/length,speed=keys.has('shift')?8:5.2,nx=player.x+fx*dt*speed,nz=player.z+fz*dt*speed,limit=key==='home'?49:24;
+      const blocked=solids.some(s=>Math.abs(nx-s.x)<s.w/2+.38&&Math.abs(nz-s.z)<s.d/2+.38);
+      if(!blocked){player.x=Math.max(-limit,Math.min(limit,nx));player.z=Math.max(-limit,Math.min(limit,nz));player.yaw=Math.atan2(fx,-fz);}
+      walkPhase+=dt*speed*1.8;
+    }
+    cameraX+=(player.x-cameraX)*Math.min(1,dt*7);cameraZ+=(player.z-cameraZ)*Math.min(1,dt*7);
+    const eye=[cameraX+Math.sin(yaw)*distance,1.55+Math.sin(pitch)*distance,cameraZ+Math.cos(yaw)*distance];
+    const target=[cameraX-Math.sin(yaw)*4.2,1.8,cameraZ-Math.cos(yaw)*4.2];
+    const proj=perspective(.82,canvas.width/canvas.height,.1,150),view=lookAt(eye,target);viewProjection=multiply(proj,view);
     gl.enable(gl.DEPTH_TEST);gl.clearColor(.012,.018,.052,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(program);gl.uniform1f(loc.tick,reduced?0:t*3.4);
-    gl.uniform3f(loc.tint,1,1,1);setAttr(bp,loc.p);setAttr(bc,loc.c);gl.uniformMatrix4fv(loc.mvp,false,vp);gl.drawArrays(gl.TRIANGLES,0,staticP.length/3);
+    gl.uniform3f(loc.tint,1,1,1);setAttr(bp,loc.p);setAttr(bc,loc.c);gl.uniformMatrix4fv(loc.mvp,false,viewProjection);gl.drawArrays(gl.TRIANGLES,0,staticP.length/3);
     setAttr(cubePositions,loc.p);setAttr(cubeColor,loc.c);
-    for(const obj of dynamic){const phase=t*obj.speed+obj.phase;let x=obj.x,z=obj.z;if(obj.axis==='x')x=((obj.x+Math.sin(phase)*19+29)%58)-29;else z=((obj.z+Math.cos(phase)*14+15)%30)-15;const y=obj.y+(reduced?0:Math.sin(phase*1.7)*.13);const model=new Float32Array([obj.w,0,0,0,0,obj.h,0,0,0,0,obj.d,0,x,y,z,1]);gl.uniformMatrix4fv(loc.mvp,false,multiply(vp,model));gl.uniform3fv(loc.tint,hex(obj.c));gl.drawArrays(gl.TRIANGLES,0,36);}
-    for(const item of landmarks){const p=[item.x,1.6,item.z],clip=vp;const x=clip[0]*p[0]+clip[4]*p[1]+clip[8]*p[2]+clip[12],y=clip[1]*p[0]+clip[5]*p[1]+clip[9]*p[2]+clip[13],w=clip[3]*p[0]+clip[7]*p[1]+clip[11]*p[2]+clip[15];item.screenX=x/w;item.screenY=y/w;}
+    for(const obj of dynamic){const phase=t*obj.speed+obj.phase;let x=obj.x,z=obj.z;if(obj.axis==='x')x=((obj.x+Math.sin(phase)*19+29)%58)-29;else z=((obj.z+Math.cos(phase)*14+15)%30)-15;const y=obj.y+(reduced?0:Math.sin(phase*1.7)*.13);const model=new Float32Array([obj.w,0,0,0,0,obj.h,0,0,0,0,obj.d,0,x,y,z,1]);gl.uniformMatrix4fv(loc.mvp,false,multiply(viewProjection,model));gl.uniform3fv(loc.tint,hex(obj.c));gl.drawArrays(gl.TRIANGLES,0,36);}
+    const gait=moving?Math.sin(walkPhase)*.48:0;
+    drawPart(0,1.13,0,.52,.76,.38,'#27dff2');drawPart(0,1.82,0,.43,.43,.43,'#e6e2ff');
+    drawPart(0,1.82,-.235,.23,.12,.035,'#ff4fb8');drawPart(0,1.22,.25,.44,.58,.18,'#8f4cff');
+    drawPart(-.36,1.15,0,.17,.58,.18,'#ffb52e',gait);drawPart(.36,1.15,0,.17,.58,.18,'#35f6ff',-gait);
+    drawPart(-.16,.48,0,.2,.68,.22,'#26345b',-gait*.8);drawPart(.16,.48,0,.2,.68,.22,'#3a2d60',gait*.8);
+    drawPart(-.16,.12,-.08,.3,.16,.4,'#ff4fb8');drawPart(.16,.12,-.08,.3,.16,.4,'#35f6ff');
+    activeLandmark=null;let nearestDistance=Infinity;
+    for(const item of landmarks){const d=Math.hypot(item.x-player.x,item.z-player.z);if(d<nearestDistance){nearestDistance=d;activeLandmark=item;}const p=[item.x,1.6,item.z],clip=viewProjection;const x=clip[0]*p[0]+clip[4]*p[1]+clip[8]*p[2]+clip[12],y=clip[1]*p[0]+clip[5]*p[1]+clip[9]*p[2]+clip[13],w=clip[3]*p[0]+clip[7]*p[1]+clip[11]*p[2]+clip[15];item.screenX=x/w;item.screenY=y/w;}
+    if(nearestDistance>8)activeLandmark=null;
+    reticle.classList.toggle('is-active',Boolean(activeLandmark));
+    if(now-lastHudUpdate>250){const small=status.querySelector('small');if(small&&!message?.classList.contains('is-new'))small.textContent=activeLandmark?`按 E 调查：${activeLandmark.name} · ${Math.round(nearestDistance)}m`:`最近信标 ${Math.round(nearestDistance)}m · 沿霓虹路面前进`;lastHudUpdate=now;}
     requestAnimationFrame(render);
   };
   requestAnimationFrame(render);
+  window.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='e'&&!e.repeat)interact();});
   document.querySelectorAll('.district-console [role="tab"]').forEach((tab,index)=>tab.addEventListener('click',()=>{
     colors[0]=['#ffb52e','#29e8ff','#ff3b71'][index%3];
     dynamic.forEach((object,n)=>{if(n%2===0)object.c=colors[0];});
     showMessage(['全区灯号转为暖琥珀，摊位恢复常亮。','引导灯切换冷青，人流通道已标记。','局部灯牌熄灭，维修区和紧急通道保留照明。'][index%3]);
   }));
 })();
-
