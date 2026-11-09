@@ -654,6 +654,27 @@ body.neon-world-active .district3d-stage::after { display:none; }
 body.neon-world-active .district-marker:hover,
 body.neon-world-active .district-marker.is-selected { border-color:#ff55cf; box-shadow:0 0 25px #f429d477; }
 .neon-world-active .city-map-canvas { cursor:grab; }
+body.neon-world-active .city-layout { grid-template-columns:minmax(0,1fr);grid-template-areas:"map" "readout" "index"; }
+body.neon-world-active .city-map-canvas { min-height:clamp(440px,calc(100vh - 300px),780px);border-color:#40335f;background:radial-gradient(ellipse at 50% 44%,#181334,#070914 76%);box-shadow:0 26px 90px #000a,inset 0 0 100px #02040d; }
+body.neon-world-active .city-map-panel { min-width:0; }
+body.neon-world-active .city-readout { margin-top:4px; }
+body.neon-world-active .city-map-canvas .district-marker {
+  left:50%;top:50%;right:auto;bottom:auto;width:auto;min-width:0;min-height:0;max-width:min(146px,28%);
+  padding:6px 9px 6px 10px;gap:2px;transform:translate(-50%,-125%);border:1px solid color-mix(in srgb,var(--marker-color) 68%,transparent);
+  border-left:2px solid var(--marker-color);background:#080d19e8;box-shadow:0 0 20px color-mix(in srgb,var(--marker-color) 24%,transparent);backdrop-filter:blur(7px);
+}
+body.neon-world-active .city-map-canvas .district-marker::before { left:50%;top:auto;bottom:-8px;width:7px;height:7px;transform:translateX(-50%);border-color:#080d19; }
+body.neon-world-active .city-map-canvas .district-marker .marker-code { font-size:8px;letter-spacing:.12em; }
+body.neon-world-active .city-map-canvas .district-marker strong { font-size:12px;white-space:nowrap; }
+body.neon-world-active .city-map-canvas .district-marker small { display:none; }
+body.neon-world-active .city-map-canvas .district-marker:hover,
+body.neon-world-active .city-map-canvas .district-marker:focus-visible,
+body.neon-world-active .city-map-canvas .district-marker.is-selected { transform:translate(-50%,-135%); }
+body.neon-world-active .city-map-canvas .map-coordinate { display:none; }
+body.neon-world-active .city3d-tools { justify-content:flex-end;min-height:38px;margin-top:6px; }
+body.neon-world-active .city3d-tools > span { display:none; }
+body.neon-world-active .city3d-tools button { min-height:31px;min-width:34px;border-color:#8061d0;background:#101022d9;color:#e6d7ff; }
+body.neon-world-active .city-map-canvas .neon-world-hud { top:13px;bottom:auto;left:13px;max-width:min(360px,calc(100% - 170px)); }
 /* Let the game scene read like a playable level, with its interface kept off the skyline. */
 body.neon-world-active .district-scene > .scene-index,
 body.neon-world-active .district-scene > .scene-kicker,
@@ -664,8 +685,8 @@ body.neon-world-active .district-scene::after { display:none; }
 body.neon-world-active .district3d-stage::after { content:""; display:block; position:absolute; z-index:2; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 48%,transparent 46%,#07091855 100%); }
 .neon-world-canvas { filter:saturate(1.22) contrast(1.06); }
 @media(max-width:760px) {
-  body.neon-world-active .city-map-canvas .district-marker { width:44%; padding:8px 9px; }
-  body.neon-world-active .city-map-canvas .district-marker strong { font-size:12px; }
+  body.neon-world-active .city-map-canvas .district-marker { max-width:126px;padding:5px 7px; }
+  body.neon-world-active .city-map-canvas .district-marker strong { font-size:10px; }
   .neon-touch-pad { display:flex; }
   .neon-world-hud { bottom:14px; left:12px; max-width:calc(100% - 166px); padding:9px 10px; }
   .neon-world-hud strong { font-size:10px; }
