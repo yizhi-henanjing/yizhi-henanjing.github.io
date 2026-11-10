@@ -1,49 +1,30 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1b2a">
-  <meta name="description" content="港务区的泊位调度、吊机灯号与夜班货柜通道。"><title>港务区｜夜航城区</title>
-  <link rel="stylesheet" href="../assets/site-v22.css"><script defer src="../assets/site.js"></script>
-  <script type="module" src="../assets/neon-world-v22.js"></script>
-  <noscript><style>.district-console [role="tablist"]{display:none!important}.district-console [data-control-panel][hidden]{display:block!important}</style></noscript>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eae8df">
+  <meta name="description" content="风景来信：按今天的天气，给你一处可以慢下来的地方。">
+  <title>风景来信 · 今天去看看远处</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="../assets/field-daily-v23.css">
+  <script defer src="../assets/field-daily-v23.js"></script>
 </head>
-<body class="district-page" data-district="harbor">
-  <header class="district-header"><a href="../index.html">← 返回夜航城区图</a><span>N-06 / DISTRICT H-05</span><a href="archive.html">沿旧货单索引前往静默档案馆 →</a></header>
-  <main class="district-layout">
-    <section class="district-scene harbor-scene" aria-labelledby="page-title">
-      <div class="scene-geometry" aria-hidden="true"><i class="harbor-geometry-crane"></i><i class="harbor-geometry-container"></i><i class="harbor-geometry-channel"></i><i class="harbor-geometry-lamp"></i></div>
-      <div class="district3d-stage" aria-label="第三人称角色可行走和调查设施的霓虹 3D 街区"><div class="district3d-world"></div></div><div class="district3d-controls" aria-label="街区镜头控制"><span>第三人称 · WASD 行走 / 拖动转向</span><button type="button" data-district-turn="-12" aria-label="向左旋转街区">↶</button><button type="button" data-district-turn="12" aria-label="向右旋转街区">↷</button><button type="button" data-district-reset>重置</button></div>
-      <div class="scene-index">H-05 <span>23:31 LOCAL</span></div><p class="scene-kicker">NIGHT PORT / EAST SERVICE BERTH</p><h1 id="page-title">港务区</h1>
-      <p class="scene-data">三号泊位装卸中 · 潮位 +1.2 m · 夜班交接 00:00</p>
-      <p class="harbor-intro">港务区的工作节奏由潮汐、班次和吊机转臂共同决定。岸边的集装箱按通道编号堆放，橙色灯杆标出禁入边界；每次货柜移动前，调度板都会同步更新泊位占用和牵引车行驶方向。</p>
-      <p class="harbor-intro">夜班交接前的半小时最忙，白班留下的未完成清单要逐项确认。岸灯会随作业区状态改变，但灯号本身不替代人工核验；司机和吊机手仍需通过无线电复诵柜号、落点和通道是否清空。</p>
-    </section>
-    <section class="district-route harbor-route" aria-labelledby="harbor-route-title"><div><p class="scene-kicker">BERTH NETWORK / SHIFT WALK</p><h2 id="harbor-route-title">沿码头灯线巡查</h2></div>
-      <ol>
-        <li><b>01 · 东闸收货亭</b><p>所有夜间货车先在东闸核对封签与预约单，未分配泊位的车辆停在外侧等候区。亭内留有雨具、反光背心和纸质应急联络表。</p><p>交接员会将待验货物标为白色短牌，需复核的批次挂橙色标记。车队离闸前须确认车道没有起吊作业。</p></li>
-        <li><b>02 · 三号泊位</b><p>三号泊位处理体积较大的城市设备和成组周转箱，吊机轨道沿岸线伸展。地面刻度帮助驾驶员将拖车停到吊臂可达的位置。</p><p>潮位上升时，靠外侧的两个落点暂停使用，货物改由内圈暂存。泊位主任把每次吊运的柜号和时间写入交班表。</p></li>
-        <li><b>03 · 黄线货柜巷</b><p>货柜巷按纵横编号分区，堆垛间的黄线始终保持清晰。牵引车只沿单向通道行驶，行人必须使用抬高的安全步道。</p><p>夜间查找货柜不靠颜色辨认，而以排号、层数和封签号三项核对。检修中的货柜位会放置可移动的硬质挡栏。</p></li>
-        <li><b>04 · 潮位观测桩</b><p>观测桩旁有一块不接入网络的实体刻度板，潮汐员每班手动比对读数。附近地面上的蓝白标记显示下一次水位复核时间。</p><p>记录同时标注风向、阵风和岸灯反光情况，这些信息影响吊机可用范围。若读数与电子仪表差异过大，调度会暂停外沿装卸。</p></li>
-      </ol>
-    </section>
-    <section class="district-console harbor-console" data-control-group="harbor" aria-labelledby="harbor-console-title"><p class="scene-kicker">DISPATCH BOARD / BERTH SECTORS</p><h2 id="harbor-console-title">切换调度分区</h2>
-      <div role="tablist" aria-label="港务区泊位调度分区">
-        <button type="button" role="tab" data-control-button aria-selected="true" aria-controls="harbor-panel-three" id="harbor-tab-three">三号泊位</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="harbor-panel-cold" id="harbor-tab-cold">冷链廊</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="harbor-panel-east" id="harbor-tab-east">东闸待泊区</button>
+<body class="scenic-site" data-scene-page="oldtown">
+  <div id="app" class="scenic-app">
+    <header class="masthead">
+      <a class="wordmark" href="../index.html"><span class="wordmark-mark">风</span><span>风景来信<small>FIELD NOTES FOR TODAY</small></span></a>
+      <time class="today-date" id="today-date"></time>
+      <div class="place-tools">
+        <div class="weather-summary" id="weather-summary" aria-live="polite"><span class="weather-glyph">◌</span><span><b id="weather-place">还没选城市</b><small id="weather-line">选一座城市，看看今天的天色</small></span></div>
+        <form class="city-search" id="city-form"><label class="sr-only" for="city-input">搜索城市</label><input id="city-input" name="city" autocomplete="off" placeholder="输入城市" maxlength="40"><button type="submit" aria-label="搜索城市">↵</button></form>
+        <button class="locate-button" id="locate-button" type="button" aria-label="使用当前位置查询城市天气">⌖ <span>定位</span></button>
       </div>
-      <article role="tabpanel" data-control-panel id="harbor-panel-three" aria-labelledby="harbor-tab-three"><h3>三号泊位 · 起吊作业中</h3><p><b>货柜：</b>设备柜 HN-310 至 HN-315 正在依序卸载，下一组空箱进入内圈暂存位。</p><p><b>吊机与灯号：</b>南吊机低速工作，橙白交替灯表示吊臂回转；泊位外沿保持红灯封闭，牵引车由西向东单向通行。</p></article>
-      <article role="tabpanel" data-control-panel id="harbor-panel-cold" aria-labelledby="harbor-tab-cold" hidden><h3>冷链廊 · 温控复核</h3><p><b>货柜：</b>冷藏批次 C-88 正在读取温度曲线，未完成复核的两柜暂留在廊道南端插电位。</p><p><b>吊机与灯号：</b>高架吊机暂停跨区转臂，蓝白常亮表示冷链电源正常；橙色检修灯位于 6 号插座上方。</p></article>
-      <article role="tabpanel" data-control-panel id="harbor-panel-east" aria-labelledby="harbor-tab-east" hidden><h3>东闸待泊区 · 车队排队</h3><p><b>货柜：</b>四辆预约车辆等待封签复核，柜号 E-204、E-209 已完成登记，其余车辆按到达顺序停靠。</p><p><b>吊机与灯号：</b>该区吊机处于停泊状态，绿色方向灯引导车辆进入缓冲道；入口橙灯闪烁时暂停放行，等待步道清空。</p></article>
-    </section>
-    <aside class="harbor-shiftlog"><h2>夜班交接簿</h2><p><b>22:40 · 三号泊位：</b>外沿水位标记更新，吊机限位器完成日检。</p><p><b>23:05 · 冷链廊：</b>两只温度探头已校准，下一次读取安排在午夜交班前。</p><p><b>23:20 · 东闸：</b>一批空箱封签号与预约单不符，车辆留在缓冲区等待货主确认。</p></aside>
-  <section class="district-nightlog" aria-labelledby="nightlog-title"><header><p class="scene-kicker">LIVE FIELD LOG / 23:00—00:30</p><h2 id="nightlog-title">本时段现场动态</h2><p>节点记录来自街区值班台，每条变化都会影响可走的路线与开放状态。</p></header><ol><li><time>23:19</time><b>三号泊位完成起吊</b><p>最后一组冷藏货柜落位，地勤将牵引车引导到黄色待泊线，给吊机留出转向半径。</p></li>
-<li><time>23:46</time><b>东闸放行短驳车</b><p>夜班短驳车按两辆一组通过闸口，司机在值台领取临时路线牌后再驶入岸线。</p></li>
-<li><time>00:12</time><b>冷链廊回温检查</b><p>巡检员记录三段温控数据，靠海一侧门帘保持闭合，等待下一班补货船靠泊。</p></li></ol></section>
-  </main>
-  <footer class="district-footer"><span>夜航城区 · 港务区 H-05</span><a href="../index.html">返回街区地图</a><span>交班资料：静默档案馆 A-06</span></footer>
+    </header>
+    <main id="experience" aria-live="polite"><div class="loading-note">正在为今天挑一处风景……</div></main>
+    <footer class="site-footer"><a href="../index.html">风景来信</a><span>天气数据 <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · 风景图片 <a href="https://unsplash.com/" target="_blank" rel="noreferrer">Unsplash</a></span><span>定位仅在点击后使用，用于识别城市并查询天气。</span></footer>
+  </div>
+  <noscript><p class="noscript">请启用 JavaScript 来查看今日风景与天气。</p></noscript>
 </body>
 </html>
-
-
-
-
 
