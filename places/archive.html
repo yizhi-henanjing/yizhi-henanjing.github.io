@@ -1,49 +1,30 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#101b13">
-  <meta name="description" content="静默档案馆收藏夜航城区旧地图、公告与街区时间线。"><title>静默档案馆｜夜航城区</title>
-  <link rel="stylesheet" href="../assets/site-v22.css"><script defer src="../assets/site.js"></script>
-  <script type="module" src="../assets/neon-world-v22.js"></script>
-  <noscript><style>.district-console [role="tablist"]{display:none!important}.district-console [data-control-panel][hidden]{display:block!important}</style></noscript>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eae8df">
+  <meta name="description" content="风景来信：按今天的天气，给你一处可以慢下来的地方。">
+  <title>风景来信 · 今天去看看远处</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="../assets/field-daily-v23.css">
+  <script defer src="../assets/field-daily-v23.js"></script>
 </head>
-<body class="district-page" data-district="archive">
-  <header class="district-header"><a href="../index.html">← 返回夜航城区图</a><span>N-06 / DISTRICT A-06</span><a href="market.html">循旧街区图册前往霓虹夜市 →</a></header>
-  <main class="district-layout">
-    <section class="district-scene archive-scene" aria-labelledby="page-title">
-      <div class="scene-geometry" aria-hidden="true"><i class="archive-geometry-scan"></i><i class="archive-geometry-shelf"></i><i class="archive-geometry-terminal"></i><i class="archive-geometry-index"></i></div>
-      <div class="district3d-stage" aria-label="第三人称角色可行走和调查设施的霓虹 3D 街区"><div class="district3d-world"></div></div><div class="district3d-controls" aria-label="街区镜头控制"><span>第三人称 · WASD 行走 / 拖动转向</span><button type="button" data-district-turn="-12" aria-label="向左旋转街区">↶</button><button type="button" data-district-turn="12" aria-label="向右旋转街区">↷</button><button type="button" data-district-reset>重置</button></div>
-      <div class="scene-index">A-06 <span>23:36 LOCAL</span></div><p class="scene-kicker">QUIET RECORDS / NORTH STACK</p><h1 id="page-title">静默档案馆</h1>
-      <p class="scene-data">阅览灯低亮 · 旧城图册开放 · 资料室 2 暂停调阅</p>
-      <p class="archive-intro">档案馆位于旧城区北侧，外墙没有醒目的招牌，入口只标着一块刻有街区编号的金属牌。馆内保存着纸质地图、公告抄本和居民提交的日常记录；资料按形成时间与用途编目，方便读者追踪一条街如何逐年改变。</p>
-      <p class="archive-intro">夜间阅览时，终端只亮到足以辨认索引的程度。扫描件不会覆盖原件，修订痕迹、折角和手写批注都被一并保留；若资料尚未完成校对，读者会看到明确的版本说明与可引用的编号。</p>
-    </section>
-    <section class="district-route archive-route" aria-labelledby="archive-route-title"><div><p class="scene-kicker">READING ROOMS / COLLECTION GUIDE</p><h2 id="archive-route-title">沿编号查阅旧城</h2></div>
-      <ol>
-        <li><b>01 · 北库地图墙</b><p>地图墙按年份排列城区底图，早期版本以街巷和水道为主，后来逐渐加入交通线、地下设施与高层通道。每张图旁都有比例尺和编绘来源。</p><p>读者可将透明描图纸叠放在相邻年份之间，比较道路迁移而不触碰原件。借阅员会记录使用的图号，便于其他人复查同一处变化。</p></li>
-        <li><b>02 · 公告抄录桌</b><p>这张长桌收藏历年的停水、施工、交通调整和夜间开放通知。原始公告常有临时更改，档案员会用不同日期的抄录本对照发布与撤回时刻。</p><p>近期居民最常查询的是线路改名与旧出口编号。桌边放着主题索引，按街区、机构和事项分类，不需要输入精确标题。</p></li>
-        <li><b>03 · 居民街坊簿</b><p>街坊簿由居民自愿提交，记录铺面更替、公共设施维修和社区节庆的细节。为保护个人信息，公开本会删去门牌与联络方式，但保留地点和日期。</p><p>同一件事可能有多份不同视角的记录，档案馆不会把它们合并成单一结论。读者可查看提交者的匿名编号与资料整理说明。</p></li>
-        <li><b>04 · 时间线阅览台</b><p>时间线把重要城区变更按月串联，从高架启用到地下通道封闭，每个节点都链接到地图或公告编号。没有可靠来源的日期会明确标作估计。</p><p>阅览台上的刻度卡可以筛出某个街区在特定几年间的事件。馆员每周维护索引，补充已核实的交叉引用和勘误记录。</p></li>
-      </ol>
-    </section>
-    <section class="district-console archive-console" data-control-group="archive" aria-labelledby="archive-console-title"><p class="scene-kicker">CATALOG FILTER / PUBLIC INDEX</p><h2 id="archive-console-title">筛选馆藏条目</h2>
-      <div role="tablist" aria-label="静默档案馆馆藏类别与年份">
-        <button type="button" role="tab" data-control-button aria-selected="true" aria-controls="archive-panel-maps" id="archive-tab-maps">旧地图 · 2041–48</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="archive-panel-notices" id="archive-tab-notices">城市公告 · 2049–55</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="archive-panel-records" id="archive-tab-records">街坊记录 · 2056–62</button>
+<body class="scenic-site" data-scene-page="starlight">
+  <div id="app" class="scenic-app">
+    <header class="masthead">
+      <a class="wordmark" href="../index.html"><span class="wordmark-mark">风</span><span>风景来信<small>FIELD NOTES FOR TODAY</small></span></a>
+      <time class="today-date" id="today-date"></time>
+      <div class="place-tools">
+        <div class="weather-summary" id="weather-summary" aria-live="polite"><span class="weather-glyph">◌</span><span><b id="weather-place">还没选城市</b><small id="weather-line">选一座城市，看看今天的天色</small></span></div>
+        <form class="city-search" id="city-form"><label class="sr-only" for="city-input">搜索城市</label><input id="city-input" name="city" autocomplete="off" placeholder="输入城市" maxlength="40"><button type="submit" aria-label="搜索城市">↵</button></form>
+        <button class="locate-button" id="locate-button" type="button" aria-label="使用当前位置查询城市天气">⌖ <span>定位</span></button>
       </div>
-      <article role="tabpanel" data-control-panel id="archive-panel-maps" aria-labelledby="archive-tab-maps"><h3>旧地图 · 地形与线路版本</h3><ul><li><b>2041 / M-07：</b>西巷摊位区手绘底图，附三处夜间饮水点的铅笔标记。</li><li><b>2045 / R-12：</b>环线北段初期开通图，纸本修订注明旧钟楼出口曾临时封闭。</li><li><b>2048 / U-03：</b>地下机修廊示意图，标出尚未接入城市主网的备用支路。</li></ul><p>这些地图保留了当年编绘者的路线假设，可与现行城区图逐项比对；手写增补不代表正式通行状态。</p></article>
-      <article role="tabpanel" data-control-panel id="archive-panel-notices" aria-labelledby="archive-tab-notices" hidden><h3>城市公告 · 运行规则的变更</h3><ul><li><b>2049-06：</b>北站厅夜间换乘试行延长，记录注明最后一班接驳车的候车位置。</li><li><b>2052-11：</b>塔区影桥改为风速联动限流，附件包含首次启用的告示稿。</li><li><b>2055-03：</b>港务区夜班货车改走东闸，公告附有旧路线的撤销日期。</li></ul><p>公告抄录本同时保存发布、修订和撤回时刻，便于还原规则在实际运行中的变化。</p></article>
-      <article role="tabpanel" data-control-panel id="archive-panel-records" aria-labelledby="archive-tab-records" hidden><h3>街坊记录 · 日常设施与记忆</h3><ul><li><b>2056 / B-18：</b>居民记录夜市雨棚改造前后排水方向，附自治会公开的检修摘要。</li><li><b>2059 / C-04：</b>夜班清洁组记录一周内的失物交接地点变化，未包含个人姓名。</li><li><b>2062 / T-31：</b>公共阅览厅访客整理高层夜景开放时段的历次调整。</li></ul><p>居民记录是补充资料，不替代机构公告；若多份记述互有差异，索引会并列展示并注明尚待核对。</p></article>
-    </section>
-    <aside class="archive-catalog"><h2>调阅规则</h2><p><b>引用编号：</b>摘录时请同时记录馆藏号、版本日期与页码，扫描件链接可能随校订更新。</p><p><b>保护原件：</b>地图描图纸由馆员发放，公告原件不得折叠；需要高分辨率复制请填写用途说明。</p><p><b>勘误提交：</b>发现地点或日期不一致，可在阅览台登记证据来源。经核实后会追加校订记录，不覆盖旧版本。</p></aside>
-  <section class="district-nightlog" aria-labelledby="nightlog-title"><header><p class="scene-kicker">LIVE FIELD LOG / 23:00—00:30</p><h2 id="nightlog-title">本时段现场动态</h2><p>节点记录来自街区值班台，每条变化都会影响可走的路线与开放状态。</p></header><ol><li><time>23:05</time><b>旧图层开放阅览</b><p>馆员将 17 年前的环线草图与现行线路并排放入终端，标注处保留铅笔修改痕迹。</p></li>
-<li><time>23:28</time><b>公告索引新增一条</b><p>夜间通行条例的修订已归档，读者可按发布日期对照旧版条目，不会覆盖原记录。</p></li>
-<li><time>23:52</time><b>街坊口述完成校对</b><p>关于旧钟楼停摆的一段录音已补上地点说明，原始说法与核实结果分别保存。</p></li></ol></section>
-  </main>
-  <footer class="district-footer"><span>夜航城区 · 静默档案馆 A-06</span><a href="../index.html">返回街区地图</a><span>地图馆藏：霓虹夜市 M-01</span></footer>
+    </header>
+    <main id="experience" aria-live="polite"><div class="loading-note">正在为今天挑一处风景……</div></main>
+    <footer class="site-footer"><a href="../index.html">风景来信</a><span>天气数据 <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · 风景图片 <a href="https://unsplash.com/" target="_blank" rel="noreferrer">Unsplash</a></span><span>定位仅在点击后使用，用于识别城市并查询天气。</span></footer>
+  </div>
+  <noscript><p class="noscript">请启用 JavaScript 来查看今日风景与天气。</p></noscript>
 </body>
 </html>
-
-
-
-
 
