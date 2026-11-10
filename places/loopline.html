@@ -1,49 +1,30 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#071d24">
-  <meta name="description" content="环线站台的站厅、换乘路径与深夜列车间隔。"><title>环线站台｜夜航城区</title>
-  <link rel="stylesheet" href="../assets/site-v22.css"><script defer src="../assets/site.js"></script>
-  <script type="module" src="../assets/neon-world-v22.js"></script>
-  <noscript><style>.district-console [role="tablist"]{display:none!important}.district-console [data-control-panel][hidden]{display:block!important}</style></noscript>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eae8df">
+  <meta name="description" content="风景来信：按今天的天气，给你一处可以慢下来的地方。">
+  <title>风景来信 · 今天去看看远处</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="../assets/field-daily-v23.css">
+  <script defer src="../assets/field-daily-v23.js"></script>
 </head>
-<body class="district-page" data-district="loopline">
-  <header class="district-header"><a href="../index.html">← 返回夜航城区图</a><span>N-06 / DISTRICT R-02</span><a href="tower.html">沿高架步道前往云幕塔区 →</a></header>
-  <main class="district-layout">
-    <section class="district-scene loopline-scene" aria-labelledby="page-title">
-      <div class="scene-geometry" aria-hidden="true"><i class="loopline-geometry-track"></i><i class="loopline-geometry-board"></i><i class="loopline-geometry-platform"></i><i class="loopline-geometry-signal"></i></div>
-      <div class="district3d-stage" aria-label="第三人称角色可行走和调查设施的霓虹 3D 街区"><div class="district3d-world"></div></div><div class="district3d-controls" aria-label="街区镜头控制"><span>第三人称 · WASD 行走 / 拖动转向</span><button type="button" data-district-turn="-12" aria-label="向左旋转街区">↶</button><button type="button" data-district-turn="12" aria-label="向右旋转街区">↷</button><button type="button" data-district-reset>重置</button></div>
-      <div class="scene-index">R-02 <span>23:22 LOCAL</span></div><p class="scene-kicker">CIRCULAR TRANSIT / NORTH CONCOURSE</p><h1 id="page-title">环线站台</h1>
-      <p class="scene-data">三线共站 · 下一班 23:26 · 北厅换乘口开放</p>
-      <p class="loopline-intro">北站厅架在旧城区的三条街道之上，轨道从顶棚的长窗下穿过。站内的灯带把换乘方向标在地面，列车进站前，站台边缘的信号柱会先亮起一道短线，随后才传来车轮经过接缝的低响。</p>
-      <p class="loopline-intro">夜间班次按目的地而非高峰客流编排。维修班会在两趟车之间巡视站台边沿，调度员则用手写间隔表补充屏幕遗漏的短停信息；乘客可在三个候车区之间步行换乘，不必离开付费区。</p>
-    </section>
-    <section class="district-route loopline-route" aria-labelledby="loopline-route-title"><div><p class="scene-kicker">TRANSFER CONCOURSE / WAYFINDING</p><h2 id="loopline-route-title">站厅换乘点</h2></div>
-      <ol>
-        <li><b>01 · 北厅闸机</b><p>闸机外侧留有一条宽通道，供夜班工人推工具箱通过。墙上的区域图以站名和出口编号为主，避免乘客只凭颜色判断路线。</p><p>此处的服务台仍有人值守至末班车后十分钟。遗失物登记册按车次分栏，紧急时可从侧门直达地面值班室。</p></li>
-        <li><b>02 · 交叉步桥</b><p>步桥连接东、西两座岛式站台，地板上的短刻度标出每节车厢停靠位置。高处的观察窗能看到信号灯转向，但无法直接进入轨道区。</p><p>两端楼梯分别通往市场街与塔区高架。晚间清洁时段会单向开放，工作人员会在入口放置实体方向牌。</p></li>
-        <li><b>03 · 低噪候车湾</b><p>候车湾设在站厅背风的一侧，墙体加了吸音层，给夜班结束的乘客留出安静位置。电子屏降低亮度，保留必要的到站与延误信息。</p><p>湾内的饮水器每小时检查一次，旁边挂有简明的夜行路线纸图。若列车间隔延长，广播会优先说明替代出口和可用接驳车。</p></li>
-        <li><b>04 · 旧线控制窗</b><p>封存的旧控制窗保留着最初环线的机械刻度盘，值班员偶尔用它核对新屏幕的线路编号。透明挡板后面能看到几组已经拆除的按钮底座。</p><p>墙边的档案牌记下每次扩建时站名的变化。乘客可从这里读懂为什么某些出口编号并不连续，以及旧地图上被划掉的支线走向。</p></li>
-      </ol>
-    </section>
-    <section class="district-console loopline-console" data-control-group="loopline" aria-labelledby="loopline-console-title"><p class="scene-kicker">ROUTE BOARD / LIVE HEADWAYS</p><h2 id="loopline-console-title">选择候车线路</h2>
-      <div role="tablist" aria-label="环线站台线路与停靠信息">
-        <button type="button" role="tab" data-control-button aria-selected="true" aria-controls="loop-panel-r1" id="loop-tab-r1">R1 北环</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="loop-panel-r2" id="loop-tab-r2">R2 内环</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="loop-panel-r3" id="loop-tab-r3">R3 夜接驳</button>
+<body class="scenic-site" data-scene-page="coast">
+  <div id="app" class="scenic-app">
+    <header class="masthead">
+      <a class="wordmark" href="../index.html"><span class="wordmark-mark">风</span><span>风景来信<small>FIELD NOTES FOR TODAY</small></span></a>
+      <time class="today-date" id="today-date"></time>
+      <div class="place-tools">
+        <div class="weather-summary" id="weather-summary" aria-live="polite"><span class="weather-glyph">◌</span><span><b id="weather-place">还没选城市</b><small id="weather-line">选一座城市，看看今天的天色</small></span></div>
+        <form class="city-search" id="city-form"><label class="sr-only" for="city-input">搜索城市</label><input id="city-input" name="city" autocomplete="off" placeholder="输入城市" maxlength="40"><button type="submit" aria-label="搜索城市">↵</button></form>
+        <button class="locate-button" id="locate-button" type="button" aria-label="使用当前位置查询城市天气">⌖ <span>定位</span></button>
       </div>
-      <article role="tabpanel" data-control-panel id="loop-panel-r1" aria-labelledby="loop-tab-r1"><h3>R1 北环 · 北厅 2 站台</h3><p><b>停靠：</b>旧钟楼 → 北厅 → 冷库街 → 云幕东门。全程 18 分钟，北厅至下一站冷库街约 3 分钟。</p><p><b>状态：</b>间隔 4 分钟，下一班 23:26。信号稳定，北厅至云幕东门之间无慢行区。</p></article>
-      <article role="tabpanel" data-control-panel id="loop-panel-r2" aria-labelledby="loop-tab-r2" hidden><h3>R2 内环 · 北厅 1 站台</h3><p><b>停靠：</b>北厅 → 纸灯巷 → 机修下层 → 档案北库。北厅至纸灯巷约 2 分钟，至机修下层约 5 分钟。</p><p><b>状态：</b>间隔 7 分钟，下一班 23:29。机修下层站短停检修，列车停靠时间增加约一分钟。</p></article>
-      <article role="tabpanel" data-control-panel id="loop-panel-r3" aria-labelledby="loop-tab-r3" hidden><h3>R3 夜接驳 · 北厅 3 站台</h3><p><b>停靠：</b>北厅 → 港务东门 → 三号泊位 → 城市货场。北厅至港务东门约 6 分钟，末段仅供夜班人员乘坐。</p><p><b>状态：</b>间隔 12 分钟，下一班 23:34。港务东门站只开南侧车门，请提前移至站台标线内候车。</p></article>
-    </section>
-    <aside class="loopline-service"><h2>乘客服务记录</h2><p><b>末班提醒：</b>站内广播会在发车前两分钟提示同台换乘，跨线乘客请预留五分钟步行时间。</p><p><b>无障碍通路：</b>北厅电梯直达三座站台，若遇维护，服务台可安排站务员引导至交叉步桥。</p><p><b>失物登记：</b>当晚拾获的物品会按车厢编号封存，次日移交北厅服务室。</p></aside>
-  <section class="district-nightlog" aria-labelledby="nightlog-title"><header><p class="scene-kicker">LIVE FIELD LOG / 23:00—00:30</p><h2 id="nightlog-title">本时段现场动态</h2><p>节点记录来自街区值班台，每条变化都会影响可走的路线与开放状态。</p></header><ol><li><time>23:14</time><b>R1 北环列车进站</b><p>北厅 2 站台先放出换乘乘客，再开放上车队列。车门关闭前留出一条无障碍通道。</p></li>
-<li><time>23:22</time><b>夜接驳加开一班</b><p>R3 接驳车将在东出口临时停靠，前往港务区的乘客可在站厅屏幕确认余位。</p></li>
-<li><time>23:41</time><b>末班换乘提醒</b><p>站务员开始广播末班线路信息，错过环线可到南厅服务台登记夜间步行路线。</p></li></ol></section>
-  </main>
-  <footer class="district-footer"><span>夜航城区 · 环线站台 R-02</span><a href="../index.html">返回街区地图</a><span>下一站：云幕塔区 T-03</span></footer>
+    </header>
+    <main id="experience" aria-live="polite"><div class="loading-note">正在为今天挑一处风景……</div></main>
+    <footer class="site-footer"><a href="../index.html">风景来信</a><span>天气数据 <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · 风景图片 <a href="https://unsplash.com/" target="_blank" rel="noreferrer">Unsplash</a></span><span>定位仅在点击后使用，用于识别城市并查询天气。</span></footer>
+  </div>
+  <noscript><p class="noscript">请启用 JavaScript 来查看今日风景与天气。</p></noscript>
 </body>
 </html>
-
-
-
-
 
