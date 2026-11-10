@@ -1,0 +1,31 @@
+@import url("field-daily-v33.css");
+
+.field-journal{padding:27px clamp(12px,1.8vw,24px) 31px;border-bottom:1px solid var(--line)}
+.journal-heading{display:grid;grid-template-columns:minmax(220px,.72fr) minmax(300px,1.45fr);gap:clamp(18px,2.8vw,36px);align-items:end;margin-bottom:19px}
+.journal-heading h2{max-width:540px;margin-top:7px;color:var(--ink);font-size:clamp(24px,2.7vw,34px);line-height:1.17;letter-spacing:-.035em}
+.journal-heading>p{max-width:720px;color:#555b53;font-size:13px;line-height:1.75}
+.journal-entries{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
+.journal-entry{display:grid;grid-template-columns:30px minmax(0,1fr);gap:13px;padding:17px 22px 8px 0}
+.journal-entry+.journal-entry{padding-left:clamp(14px,2vw,26px);border-left:1px solid var(--line)}
+.journal-index{display:flex;flex-direction:column;align-items:center;gap:11px;padding-top:2px;color:#858b80}
+.journal-index span{font-size:10px;font-variant-numeric:tabular-nums}
+.journal-index i{width:1px;min-height:50px;flex:1;background:#d9dbd2}
+.journal-entry small{color:#858b80;font-size:10px}
+.journal-entry h3{margin:6px 0 9px;color:#30362f;font-size:17px;font-weight:550;letter-spacing:-.025em}
+.journal-entry p{color:#5a6058;font-size:12px;line-height:1.9}
+
+@media(max-width:860px){
+  .journal-heading{grid-template-columns:.8fr 1.4fr;gap:18px}
+  .journal-entry{grid-template-columns:24px minmax(0,1fr);gap:9px}
+}
+@media(max-width:680px){
+  .field-journal{padding:23px 3px 25px}
+  .journal-heading{grid-template-columns:1fr;gap:8px;margin-bottom:13px}
+  .journal-heading h2{font-size:24px}
+  .journal-heading>p{font-size:12px;line-height:1.7}
+  .journal-entries{grid-template-columns:1fr}
+  .journal-entry,.journal-entry+.journal-entry{grid-template-columns:24px minmax(0,1fr);gap:10px;padding:14px 0 15px;border-left:0;border-bottom:1px solid var(--line)}
+  .journal-index i{min-height:30px}
+  .journal-entry h3{margin:4px 0 6px;font-size:16px}
+  .journal-entry p{font-size:12px;line-height:1.85}
+}
