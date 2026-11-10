@@ -1,0 +1,90 @@
+@import url("field-daily-v29.css");
+
+:root{
+  --ease-fluid:cubic-bezier(.22,.68,0,1);
+  --ease-spring:cubic-bezier(.2,.8,.2,1);
+}
+
+/* Softly changing light keeps the landscape alive without competing with it. */
+.home-hero,.scene-hero{perspective:1000px;transform-style:preserve-3d;box-shadow:0 18px 48px #28332a12,0 2px 8px #28332a08}
+.hero-photo{transform:translate3d(var(--parallax-x,0px),var(--parallax-y,0px),0) scale(1.065);animation:photo-arrive .85s var(--ease-fluid) both,photo-drift 24s 850ms ease-in-out infinite alternate;transition:filter 1.2s ease,opacity .6s var(--ease-fluid);will-change:transform}
+.home-hero:hover .hero-photo,.scene-hero:hover .hero-photo{transform:translate3d(var(--parallax-x,0px),var(--parallax-y,0px),0) scale(1.065)}
+.hero-photo.is-changing{opacity:.38;filter:saturate(.72) blur(3px)!important;transform:translate3d(var(--parallax-x,0px),var(--parallax-y,0px),0) scale(1.085)!important}
+.home-hero.is-scene-leaving .hero-photo{opacity:.18!important;filter:blur(5px)!important;transform:scale(1.12)!important}
+.hero-shade{transition:background .9s ease}
+.weather-effects{opacity:.2;mix-blend-mode:soft-light;isolation:isolate}
+.weather-effects::before,.weather-effects::after{position:absolute;inset:-12%;content:"";pointer-events:none}
+.weather-effects::before{opacity:.76;background:radial-gradient(ellipse at 78% 13%,#fff8df62 0%,#fff8df12 20%,transparent 43%),linear-gradient(118deg,transparent 35%,#ffffff12 52%,transparent 68%);background-size:100% 100%,220% 100%;background-position:center,left center;animation:light-breath 11s ease-in-out infinite alternate,light-drift 28s ease-in-out infinite alternate}
+.weather-effects::after{opacity:.46;background:radial-gradient(ellipse at 18% 78%,#f4f0db22,transparent 43%),radial-gradient(ellipse at 90% 90%,#18251a20,transparent 40%);animation:atmosphere-breathe 9s ease-in-out infinite alternate}
+.home-hero[data-landscape="coast"] .weather-effects::before,.scene-hero[data-landscape="coast"] .weather-effects::before{background-image:radial-gradient(ellipse at 70% 12%,#fff6d88a 0%,#fff5d82b 20%,transparent 44%),linear-gradient(110deg,transparent 42%,#ffffff18 52%,transparent 64%)}
+.home-hero[data-landscape="forest"] .weather-effects::after,.scene-hero[data-landscape="forest"] .weather-effects::after{background:radial-gradient(ellipse at 40% 0%,#dce8d949,transparent 38%),linear-gradient(0deg,#10251a25,transparent 52%)}
+.home-hero[data-landscape="mountain"] .weather-effects::after,.scene-hero[data-landscape="mountain"] .weather-effects::after{background:linear-gradient(115deg,#eef1ea22,transparent 38%,#f4e7ca14 70%,transparent)}
+.home-hero[data-landscape="lake"] .weather-effects::before,.scene-hero[data-landscape="lake"] .weather-effects::before{background:radial-gradient(ellipse at 78% 54%,#fff4d442,transparent 36%),linear-gradient(0deg,#dce8e91c,transparent 46%)}
+body[data-weather="rain"] .weather-effects{opacity:.25}
+body[data-weather="rain"] .weather-effects::before{background:repeating-linear-gradient(108deg,transparent 0 42px,#f5f8f528 43px,#f5f8f528 44px,transparent 45px 82px);animation:rain-glide 3.2s linear infinite}
+body[data-weather="snow"] .weather-effects{opacity:.44}
+body[data-weather="snow"] .weather-effects::before{background-image:radial-gradient(circle,#ffffffa8 1px,transparent 2px),radial-gradient(circle,#ffffff88 1px,transparent 2px);background-size:63px 71px,93px 109px;background-position:0 0,30px 45px;animation:snow-fall 13s linear infinite}
+body[data-weather="fog"] .weather-effects::before{background:linear-gradient(0deg,#eef0e950,transparent 78%);backdrop-filter:blur(1px);animation:fog-breathe 12s ease-in-out infinite alternate}
+body[data-weather="cloud"] .weather-effects::before{opacity:.5;background-image:linear-gradient(118deg,transparent 35%,#ffffff1c 52%,transparent 68%)}
+
+@keyframes photo-arrive{from{opacity:.35}to{opacity:1}}
+@keyframes photo-drift{from{transform:translate3d(var(--parallax-x,0px),var(--parallax-y,0px),0) scale(1.065)}to{transform:translate3d(calc(var(--parallax-x,0px) - 17px),calc(var(--parallax-y,0px) + 12px),0) scale(1.115)}}
+@keyframes light-breath{from{opacity:.42}to{opacity:.9}}
+@keyframes light-drift{from{background-position:center,0% center}to{background-position:center,100% center}}
+@keyframes atmosphere-breathe{from{transform:translate3d(-.6%,.2%,0) scale(1)}to{transform:translate3d(.8%,-.4%,0) scale(1.025)}}
+@keyframes rain-glide{to{background-position:80px 130px}}
+@keyframes snow-fall{to{background-position:0 180px,30px 240px}}
+@keyframes fog-breathe{from{opacity:.38;transform:translateY(1%)}to{opacity:.72;transform:translateY(-1%)}}
+
+.hero-copy>*{opacity:0;animation:copy-arrive .72s var(--ease-fluid) both}
+.hero-copy>*:nth-child(1){animation-delay:.12s}
+.hero-copy>*:nth-child(2){animation-delay:.2s}
+.hero-copy>*:nth-child(3){animation-delay:.29s}
+.hero-copy>*:nth-child(4){animation-delay:.36s}
+.hero-copy>*:nth-child(5){animation-delay:.43s}
+@keyframes copy-arrive{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+
+.reveal-on-scroll{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease-fluid),transform .8s var(--ease-fluid);transition-delay:var(--reveal-delay,0ms)}
+.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}
+.scene-grid .scene-card{transform:perspective(1100px) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) translateY(var(--lift,0px));transition:transform .55s var(--ease-spring),box-shadow .55s var(--ease-fluid),filter .4s ease;will-change:transform}
+.scene-grid .scene-card:hover{transform:perspective(1100px) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg)) translateY(-4px);box-shadow:0 18px 34px #29312824;filter:brightness(1.025)}
+.scene-grid .scene-card img{transform:scale(1.015);transition:transform 1s var(--ease-fluid),filter .8s ease}
+.scene-grid .scene-card:hover img{transform:scale(1.075);filter:saturate(1.06) contrast(1.025)}
+.scene-grid .scene-card::after{transition:opacity .6s ease,background-position .8s ease}
+.scene-grid .scene-card-arrow{transition:transform .45s var(--ease-spring),background .35s ease,border-color .35s ease}
+.scene-grid .scene-card:hover .scene-card-arrow{transform:translate3d(2px,-2px,0);background:#ffffff3b;border-color:#fff}
+.text-action,.quiet-action,.locate-button,.city-search button,.other-places a{transition:transform .38s var(--ease-spring),background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease}
+.text-action:hover,.locate-button:hover{transform:translateY(-2px)}
+.text-action:active,.locate-button:active,.city-search button:active{transform:scale(.96)}
+.weather-dot{animation:weather-pulse 3.6s ease-in-out infinite}
+@keyframes weather-pulse{0%,100%{box-shadow:0 0 0 0 #fff0}50%{box-shadow:0 0 0 5px #ffffff28}}
+.scene-picker{display:flex;align-items:center;gap:6px;margin-top:13px}
+.scene-picker button{display:grid;place-items:center;width:31px;height:28px;padding:0;border:1px solid #ffffff72;border-radius:999px;background:#ffffff13;color:#ffffffed;font:500 8px var(--sans);letter-spacing:.02em;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);cursor:pointer;transition:width .42s var(--ease-spring),transform .35s var(--ease-spring),background .3s ease,color .3s ease,border-color .3s ease}
+.scene-picker button:hover{transform:translateY(-2px);border-color:#fff;background:#ffffff29}
+.scene-picker button[aria-pressed="true"]{width:48px;border-color:#f7f6f0;background:#f7f6f0;color:#313a30}
+.scene-picker button:active{transform:scale(.93)}
+.scene-picker button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.home-hero,.scene-hero{view-transition-name:landscape-hero}
+@view-transition{navigation:auto}
+::view-transition-old(landscape-hero){animation:landscape-exit .24s ease-in both}
+::view-transition-new(landscape-hero){animation:landscape-enter .52s var(--ease-fluid) both}
+@keyframes landscape-exit{to{opacity:0;filter:blur(5px);transform:scale(.985)}}
+@keyframes landscape-enter{from{opacity:0;filter:blur(5px);transform:scale(1.015)}to{opacity:1;filter:blur(0);transform:scale(1)}}
+
+@media(max-width:680px){
+  .hero-photo{animation:photo-arrive .8s var(--ease-fluid) both,photo-drift-mobile 34s 800ms ease-in-out infinite alternate}
+  @keyframes photo-drift-mobile{from{transform:scale(1.055)}to{transform:translate3d(-5px,4px,0) scale(1.085)}}
+  .scene-grid .scene-card{transform:none;will-change:auto}
+  .scene-grid .scene-card:hover{transform:translateY(-2px)}
+  .reveal-on-scroll{transform:translateY(12px)}
+  .scene-picker{gap:5px;margin-top:11px}
+  .scene-picker button{width:29px;height:25px}
+  .scene-picker button[aria-pressed="true"]{width:43px}
+}
+@media(hover:none){.scene-grid .scene-card,.scene-grid .scene-card:hover{transform:none!important}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  @view-transition{navigation:none}
+  .reveal-on-scroll{opacity:1;transform:none}
+  .hero-photo{transform:none!important;filter:none!important}
+}
