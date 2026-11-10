@@ -1,49 +1,30 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#09182c">
-  <meta name="description" content="穿行云幕塔区街面、空中连廊与夜间开放楼层。"><title>云幕塔区｜夜航城区</title>
-  <link rel="stylesheet" href="../assets/site-v22.css"><script defer src="../assets/site.js"></script>
-  <script type="module" src="../assets/neon-world-v22.js"></script>
-  <noscript><style>.district-console [role="tablist"]{display:none!important}.district-console [data-control-panel][hidden]{display:block!important}</style></noscript>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eae8df">
+  <meta name="description" content="风景来信：按今天的天气，给你一处可以慢下来的地方。">
+  <title>风景来信 · 今天去看看远处</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="../assets/field-daily-v23.css">
+  <script defer src="../assets/field-daily-v23.js"></script>
 </head>
-<body class="district-page" data-district="tower">
-  <header class="district-header"><a href="../index.html">← 返回夜航城区图</a><span>N-06 / DISTRICT T-03</span><a href="underworks.html">沿维护梯进入地下机修层 →</a></header>
-  <main class="district-layout">
-    <section class="district-scene tower-scene" aria-labelledby="page-title">
-      <div class="scene-geometry" aria-hidden="true"><i class="tower-geometry-grid"></i><i class="tower-geometry-tower"></i><i class="tower-geometry-bridge"></i><i class="tower-geometry-window"></i></div>
-      <div class="district3d-stage" aria-label="第三人称角色可行走和调查设施的霓虹 3D 街区"><div class="district3d-world"></div></div><div class="district3d-controls" aria-label="街区镜头控制"><span>第三人称 · WASD 行走 / 拖动转向</span><button type="button" data-district-turn="-12" aria-label="向左旋转街区">↶</button><button type="button" data-district-turn="12" aria-label="向右旋转街区">↷</button><button type="button" data-district-reset>重置</button></div>
-      <div class="scene-index">T-03 <span>23:24 LOCAL</span></div><p class="scene-kicker">CLOUD VEIL / CENTRAL HIGHRISE</p><h1 id="page-title">云幕塔区</h1>
-      <p class="scene-data">街面通行正常 · 连廊至 42 层开放 · 高层风速 8 m/s</p>
-      <p class="tower-intro">塔区由四座不同年代的高楼围成，中间的街道没有完全封闭，地面商铺与高层办公灯光在玻璃幕墙上彼此映照。风从建筑缝隙穿过时，路口的窄幅风旗会先动，提醒行人空中连廊可能暂时减速。</p>
-      <p class="tower-intro">这片区域并非只为匆忙通勤而建。楼层间保留了公共饮水点、夜班休息室和几条可步行的连廊，维护人员每天检查门禁和照明；高层视野开放到午夜，访客仍需遵守安静时段与人数限制。</p>
-    </section>
-    <section class="district-route tower-route" aria-labelledby="tower-route-title"><div><p class="scene-kicker">VERTICAL CITY / PUBLIC ACCESS</p><h2 id="tower-route-title">从街面抵达云幕</h2></div>
-      <ol>
-        <li><b>01 · 玻璃基座街</b><p>塔楼基座之间形成一条有顶步行街，立柱上标明每栋建筑的公共入口和夜间值班台。街边铺面在午夜前陆续打烊，自动售水柜仍保持开放。</p><p>地面铺装嵌入排水沟和盲道，雨天时水线会沿沟槽流向维护井。这里的导览牌同时列出电梯位置，方便不便使用楼梯的访客。</p></li>
-        <li><b>02 · 影桥连廊</b><p>影桥横跨塔区中央路口，透明护栏下方嵌有低亮度引导灯。连廊中段设避风凹位，供行人等待对向人流通过，不能在通道中央停留。</p><p>值班门禁显示每个接入楼层是否开放，访客无需进入办公楼即可通过桥体到达公共观景大厅。风势变化时，桥两端的灯牌会显示建议行走方向。</p></li>
-        <li><b>03 · 云阶公共厅</b><p>公共厅位于四十二层，保留一整面朝向旧城区的窗景。这里设有饮水器、长椅与纸质城区路线图，桌面不提供商业展位，夜间以休息和导览为主。</p><p>窗边地面标记了安全距离，玻璃上的小点阵能显示高层风速和降雨信息。工作人员每半小时巡查一次，发现人流拥挤时会分批放行。</p></li>
-        <li><b>04 · 设备花园层</b><p>设备花园层把空调外机与雨水回收槽集中布置在植栽之后，访客只能沿外圈走道通行。叶片和金属格栅共同遮挡设备噪声，也帮助维护员判断风道是否堵塞。</p><p>门口的维护记录牌列出最近一次滤网更换与照明巡检时间。若出现异常振动，楼层服务台会关闭一段通道并通知地下机修层。</p></li>
-      </ol>
-    </section>
-    <section class="district-console tower-console" data-control-group="tower" aria-labelledby="tower-console-title"><p class="scene-kicker">LEVEL SELECT / PUBLIC VIEW</p><h2 id="tower-console-title">选择观察高度</h2>
-      <div role="tablist" aria-label="云幕塔区开放楼层">
-        <button type="button" role="tab" data-control-button aria-selected="true" aria-controls="tower-panel-street" id="tower-tab-street">街面</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="tower-panel-skywalk" id="tower-tab-skywalk">影桥连廊</button><button type="button" role="tab" data-control-button aria-selected="false" aria-controls="tower-panel-upper" id="tower-tab-upper">云阶高层</button>
+<body class="scenic-site" data-scene-page="lake">
+  <div id="app" class="scenic-app">
+    <header class="masthead">
+      <a class="wordmark" href="../index.html"><span class="wordmark-mark">风</span><span>风景来信<small>FIELD NOTES FOR TODAY</small></span></a>
+      <time class="today-date" id="today-date"></time>
+      <div class="place-tools">
+        <div class="weather-summary" id="weather-summary" aria-live="polite"><span class="weather-glyph">◌</span><span><b id="weather-place">还没选城市</b><small id="weather-line">选一座城市，看看今天的天色</small></span></div>
+        <form class="city-search" id="city-form"><label class="sr-only" for="city-input">搜索城市</label><input id="city-input" name="city" autocomplete="off" placeholder="输入城市" maxlength="40"><button type="submit" aria-label="搜索城市">↵</button></form>
+        <button class="locate-button" id="locate-button" type="button" aria-label="使用当前位置查询城市天气">⌖ <span>定位</span></button>
       </div>
-      <article role="tabpanel" data-control-panel id="tower-panel-street" aria-labelledby="tower-tab-street"><h3>街面 · 基座街照明全开</h3><p><b>视野：</b>四座塔楼之间的商铺檐线、地面导览牌与维护井入口都可见。东侧行道正在清洗，步行人流请走西侧廊檐。</p><p><b>通行：</b>人行信号每 42 秒放行一次；路面灯光为常亮模式，夜班巴士停靠点保持开放。</p></article>
-      <article role="tabpanel" data-control-panel id="tower-panel-skywalk" aria-labelledby="tower-tab-skywalk" hidden><h3>影桥连廊 · 双向分流</h3><p><b>视野：</b>可俯瞰中央路口与两座换乘塔门厅。桥面东段有风雨清扫作业，工作人员会引导人流从西侧错峰通过。</p><p><b>通行：</b>门禁开放至 42 层公共厅，桥上引导灯保持冷白；阵风超过 12 m/s 时将改为单向通行。</p></article>
-      <article role="tabpanel" data-control-panel id="tower-panel-upper" aria-labelledby="tower-tab-upper" hidden><h3>云阶高层 · 夜景阅览时段</h3><p><b>视野：</b>窗面朝向旧城北区，可看到环线站台与几条主干街灯。北侧窗沿正在检查密封条，观景区域缩至内圈。</p><p><b>通行：</b>访客电梯每六分钟一班，厅内照明降至阅览亮度；请勿倚靠玻璃或使用强光照射窗外。</p></article>
-    </section>
-    <aside class="tower-services"><h2>楼层服务时刻</h2><p><b>夜间值班台：</b>基座东门 24 小时开放，可借阅无障碍路线图并联系楼宇维护员。</p><p><b>公共饮水点：</b>街面、影桥西端与云阶公共厅均有补水设备，末次清洁记录为 23:00。</p><p><b>安静时段：</b>午夜后高层公共厅限制团体导览，设备花园层始终仅供获准维护人员进入。</p></aside>
-  <section class="district-nightlog" aria-labelledby="nightlog-title"><header><p class="scene-kicker">LIVE FIELD LOG / 23:00—00:30</p><h2 id="nightlog-title">本时段现场动态</h2><p>节点记录来自街区值班台，每条变化都会影响可走的路线与开放状态。</p></header><ol><li><time>23:08</time><b>影桥连廊开放</b><p>高层风速降至安全范围，东向连廊恢复双向通行；靠窗观景区仍需留出消防通道。</p></li>
-<li><time>23:31</time><b>云阶灯带调暗</b><p>楼层导引切换为低亮模式，避免光线投向附近住宅窗面。观景平台保留一段暖色边灯。</p></li>
-<li><time>00:10</time><b>高层服务收班</b><p>便利站将补给箱移到 18 层电梯厅，夜间巡楼员沿外环逐层检查灯带。</p></li></ol></section>
-  </main>
-  <footer class="district-footer"><span>夜航城区 · 云幕塔区 T-03</span><a href="../index.html">返回街区地图</a><span>维护通道：地下机修层 U-04</span></footer>
+    </header>
+    <main id="experience" aria-live="polite"><div class="loading-note">正在为今天挑一处风景……</div></main>
+    <footer class="site-footer"><a href="../index.html">风景来信</a><span>天气数据 <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · 风景图片 <a href="https://unsplash.com/" target="_blank" rel="noreferrer">Unsplash</a></span><span>定位仅在点击后使用，用于识别城市并查询天气。</span></footer>
+  </div>
+  <noscript><p class="noscript">请启用 JavaScript 来查看今日风景与天气。</p></noscript>
 </body>
 </html>
-
-
-
-
 
